@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  username  String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  posts         Post[]
+  postVotes     PostVote[]
+  comments      Comment[]
+  commentVotes  CommentVote[]
+
+  @@map("users")
+}
+
+model Post {
+  id              String   @id @default(uuid()) @db.Uuid
+  authorUserId    String   @map("author_user_id") @db.Uuid
+  title           String
+  storageUrl      String   @map("storage_url")
+  storagePath     String   @map("storage_path")
+  mimeType        String   @map("mime_type")
+  durationSeconds Int      @map("duration_seconds")
+  scoreCached     Int      @default(0) @map("score_cached")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  author   User         @relation(fields: [authorUserId], references: [id], onDelete: Cascade)
+  votes    PostVote[]
+  comments Comment[]
+
+  @@index([createdAt(sort: Desc)])
+  @@index([scoreCached(sort: Desc), createdAt(sort: Desc)])
+  @@map("posts")
+}
+
+model PostVote {
+  userId String @map("user_id") @db.Uuid
+  postId String @map("post_id") @db.Uuid
+  value  Int
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+  @@index([postId])
+  @@map("post_votes")
+}
+
+model Comment {
+  id              String   @id @default(uuid()) @db.Uuid
+  postId          String   @map("post_id") @db.Uuid
+  authorUserId    String   @map("author_user_id") @db.Uuid
+  parentCommentId String?  @map("parent_comment_id") @db.Uuid
+  body            String
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  post          Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author        User          @relation(fields: [authorUserId], references: [id], onDelete: Cascade)
+  parentComment Comment?      @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: Cascade)
+  replies       Comment[]     @relation("CommentReplies")
+  votes         CommentVote[]
+
+  @@index([postId, parentCommentId, createdAt])
+  @@map("comments")
+}
+
+model CommentVote {
+  userId    String @map("user_id") @db.Uuid
+  commentId String @map("comment_id") @db.Uuid
+  value     Int
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@id([userId, commentId])
+  @@index([commentId])
+  @@map("comment_votes")
+}
+
