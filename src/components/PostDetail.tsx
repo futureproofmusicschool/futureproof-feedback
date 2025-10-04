@@ -125,12 +125,16 @@ export default function PostDetail({ postId, username }: PostDetailProps) {
         </div>
 
         <div className="flex-1 p-4">
-          <h1 className="text-2xl font-bold mb-2 text-text-light">{post.title}</h1>
-          <div className="text-sm text-brand-gray mb-1">
-            Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
-          </div>
-          <div className="text-sm text-brand-purple-bright font-bold mb-4">
-            Genre: {post.genre}
+          <div className="flex justify-between items-start mb-4">
+            <h1 className="text-2xl font-bold text-text-light">{post.title}</h1>
+            <div className="text-right ml-4">
+              <div className="text-sm text-brand-gray whitespace-nowrap">
+                Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
+              </div>
+              <div className="text-sm text-brand-purple-bright font-bold">
+                Genre: {post.genre}
+              </div>
+            </div>
           </div>
 
           <AudioPlayer url={post.storageUrl} mimeType={post.mimeType} />
@@ -141,11 +145,11 @@ export default function PostDetail({ postId, username }: PostDetailProps) {
           </div>
 
           {post.author === username && (
-            <div className="mt-4">
+            <div className="mt-4 flex justify-end">
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className="px-4 py-2 bg-red-600 text-white rounded-full text-sm font-bold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                className="text-red-500 hover:text-red-400 text-sm font-semibold hover:underline disabled:opacity-50 disabled:cursor-not-allowed transition"
               >
                 {deleting ? 'Deleting...' : 'Delete Post'}
               </button>
