@@ -47,18 +47,20 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
         </div>
 
         <div className="flex-1 p-3">
-          <div className="mb-2">
+          <div className="flex justify-between items-start mb-2">
             <h2
-              className="text-lg font-semibold mb-1 cursor-pointer hover:underline text-text-light"
+              className="text-lg font-semibold cursor-pointer hover:underline text-text-light flex-1"
               onClick={handleCommentsClick}
             >
               {post.title}
             </h2>
-            <div className="text-xs text-brand-gray mb-1">
-              Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
-            </div>
-            <div className="text-xs text-brand-purple-light font-semibold">
-              Genre: {post.genre}
+            <div className="text-right ml-4">
+              <div className="text-xs text-brand-gray whitespace-nowrap">
+                Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
+              </div>
+              <div className="text-xs text-brand-purple-light font-semibold">
+                Genre: {post.genre}
+              </div>
             </div>
           </div>
 
