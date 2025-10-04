@@ -12,9 +12,9 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { title, filePath, mimeType, durationSeconds } = body;
+    const { title, genre, description, filePath, mimeType, durationSeconds } = body;
 
-    if (!title || !filePath || !mimeType || durationSeconds === undefined) {
+    if (!title || !genre || !description || !filePath || !mimeType || durationSeconds === undefined) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -48,6 +48,8 @@ export async function POST(request: NextRequest) {
       data: {
         authorUserId: user.id,
         title,
+        genre,
+        description,
         storageUrl,
         storagePath: filePath,
         mimeType,
@@ -127,6 +129,8 @@ export async function GET(request: NextRequest) {
       return {
         id: post.id,
         title: post.title,
+        genre: post.genre,
+        description: post.description,
         storageUrl: post.storageUrl,
         mimeType: post.mimeType,
         durationSeconds: post.durationSeconds,

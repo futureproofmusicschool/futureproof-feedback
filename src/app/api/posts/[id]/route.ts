@@ -54,6 +54,8 @@ export async function GET(
     return NextResponse.json({
       id: post.id,
       title: post.title,
+      genre: post.genre,
+      description: post.description,
       storageUrl: post.storageUrl,
       mimeType: post.mimeType,
       durationSeconds: post.durationSeconds,

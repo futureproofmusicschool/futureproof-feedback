@@ -8,6 +8,8 @@ import { formatDistanceToNow } from '@/lib/utils';
 interface Post {
   id: string;
   title: string;
+  genre: string;
+  description: string;
   storageUrl: string;
   mimeType: string;
   durationSeconds: number;
@@ -52,8 +54,11 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
             >
               {post.title}
             </h2>
-            <div className="text-xs text-brand-gray">
+            <div className="text-xs text-brand-gray mb-1">
               Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
+            </div>
+            <div className="text-xs text-brand-purple-light font-semibold">
+              Genre: {post.genre}
             </div>
           </div>
 

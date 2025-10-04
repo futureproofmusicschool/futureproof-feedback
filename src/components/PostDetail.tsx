@@ -8,6 +8,8 @@ import { formatDistanceToNow } from '@/lib/utils';
 interface Post {
   id: string;
   title: string;
+  genre: string;
+  description: string;
   storageUrl: string;
   mimeType: string;
   durationSeconds: number;
@@ -90,11 +92,19 @@ export default function PostDetail({ postId, username }: PostDetailProps) {
 
         <div className="flex-1 p-4">
           <h1 className="text-2xl font-bold mb-2 text-text-light">{post.title}</h1>
-          <div className="text-sm text-brand-gray mb-4">
+          <div className="text-sm text-brand-gray mb-1">
             Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
+          </div>
+          <div className="text-sm text-brand-purple-light font-semibold mb-4">
+            Genre: {post.genre}
           </div>
 
           <AudioPlayer url={post.storageUrl} mimeType={post.mimeType} />
+
+          <div className="mt-4 p-3 bg-bg-light rounded-md border border-bg-light">
+            <h3 className="text-sm font-semibold text-text-light mb-2">Description</h3>
+            <p className="text-sm text-brand-gray whitespace-pre-wrap">{post.description}</p>
+          </div>
         </div>
       </div>
     </div>

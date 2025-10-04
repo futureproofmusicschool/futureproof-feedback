@@ -11,8 +11,10 @@ Add the following variables (for **Production**, **Preview**, and **Development*
 
 ### DATABASE_URL
 ```
-postgres://postgres:@5d4LH.g8g7d2Py@db.teonbgjmuzysypukdqul.supabase.co:6543/postgres?pgbouncer=true&connection_limit=1
+postgresql://postgres:%405d4LH.g8g7d2Py@db.teonbgjmuzysypukdqul.supabase.co:6543/postgres?pgbouncer=true&connection_limit=1&sslmode=require
 ```
+
+> The `%40` encodes the `@` at the start of the password. Keeping it encoded (and appending `sslmode=require`) ensures Prisma can connect from Vercel without the connection being rejected by the pooled Supabase endpoint.
 
 ### NEXT_PUBLIC_SUPABASE_URL
 ```
@@ -74,4 +76,3 @@ To test locally:
 1. Create a `.env.local` file with the environment variables above
 2. Run `npm run dev`
 3. Visit `http://localhost:3000/?u=testuser`
-

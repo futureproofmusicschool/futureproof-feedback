@@ -9,6 +9,8 @@ interface SubmitModalProps {
 
 export default function SubmitModal({ username, onClose }: SubmitModalProps) {
   const [title, setTitle] = useState('');
+  const [genre, setGenre] = useState('');
+  const [description, setDescription] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -65,8 +67,8 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title || !file) {
-      setError('Please provide a title and select a file');
+    if (!title || !genre || !description || !file) {
+      setError('Please provide all required fields and select a file');
       return;
     }
 
@@ -115,6 +117,8 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
         },
         body: JSON.stringify({
           title,
+          genre,
+          description,
           filePath: filePath,
           mimeType: file.type,
           durationSeconds: duration,
@@ -165,6 +169,34 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
 
           <div className="mb-4">
             <label className="block text-sm font-semibold text-text-light mb-2">
+              Genre
+            </label>
+            <input
+              type="text"
+              value={genre}
+              onChange={(e) => setGenre(e.target.value)}
+              className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple text-text-light"
+              placeholder="e.g., Rock, Jazz, Electronic"
+              disabled={uploading}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-semibold text-text-light mb-2">
+              Description
+            </label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple text-text-light resize-none"
+              rows={4}
+              placeholder="Tell us something about how you made the track, what you were going for, and what kind of feedback you're looking for."
+              disabled={uploading}
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-semibold text-text-light mb-2">
               Audio File (MP3 or WAV, &lt; 10 minutes)
             </label>
             <input
@@ -200,7 +232,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
             <button
               type="submit"
               className="px-4 py-2 bg-brand-purple text-white rounded-full font-semibold hover:bg-brand-purple-light disabled:opacity-50 disabled:cursor-not-allowed transition"
-              disabled={uploading || !title || !file}
+              disabled={uploading || !title || !genre || !description || !file}
             >
               {uploading ? 'Uploading...' : 'Submit'}
             </button>

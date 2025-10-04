@@ -8,6 +8,8 @@ type SortOption = 'hot' | 'new' | 'top';
 interface Post {
   id: string;
   title: string;
+  genre: string;
+  description: string;
   storageUrl: string;
   mimeType: string;
   durationSeconds: number;
