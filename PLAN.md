@@ -1,4 +1,4 @@
-# Music Subreddit-Style App (Vercel + LearnWorlds Embed)
+# Feedback - Music Subreddit-Style App (Vercel + LearnWorlds Embed)
 
 ## Goal
 A single-subreddit clone specialized for original music tracks. Hosted on Vercel, embedded via iframe in LearnWorlds, visible only when embedded in LearnWorlds. Identity is the LearnWorlds `{{USER.USERNAME}}` value (no extra login).

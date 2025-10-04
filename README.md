@@ -1,6 +1,6 @@
-# Arena - Music Community Platform
+# Feedback - Music Community Platform
 
-A Reddit-style community platform for sharing original music tracks, designed to be embedded in LearnWorlds.
+A Reddit-style community platform for sharing original music tracks and getting feedback from fellow producers, designed to be embedded in LearnWorlds.
 
 ## Features
 

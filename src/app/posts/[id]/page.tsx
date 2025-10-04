@@ -51,8 +51,8 @@ export default function PostPage() {
               ← Back
             </button>
             <div>
-              <h1 className="text-xl font-bold text-reddit-orange">Arena</h1>
-              <p className="text-xs text-gray-600">Music Community</p>
+              <h1 className="text-xl font-bold text-reddit-orange">Feedback</h1>
+              <p className="text-xs text-gray-600">Share your music, get feedback</p>
             </div>
           </div>
           <span className="text-sm text-gray-700">u/{username}</span>

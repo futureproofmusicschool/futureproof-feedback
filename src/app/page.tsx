@@ -45,8 +45,8 @@ export default function Home() {
       <header className="bg-white border-b border-gray-300 sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-reddit-orange">Arena</h1>
-            <p className="text-xs text-gray-600">Music Community</p>
+            <h1 className="text-xl font-bold text-reddit-orange">Feedback</h1>
+            <p className="text-xs text-gray-600">Share your music, get feedback</p>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-700">u/{username}</span>

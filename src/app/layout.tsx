@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Arena - Music Community",
-  description: "Share and discover original music tracks",
+  title: "Feedback - Music Community",
+  description: "Share your music and get feedback from fellow producers",
 };
 
 export default function RootLayout({
