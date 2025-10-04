@@ -9,15 +9,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    let user = await prisma.user.findUnique({
+    const user = await prisma.user.upsert({
       where: { username },
+      update: {},
+      create: { username },
     });
-
-    if (!user) {
-      user = await prisma.user.create({
-        data: { username },
-      });
-    }
 
     const { searchParams } = request.nextUrl;
     const status = searchParams.get('status') ?? 'unread';

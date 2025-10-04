@@ -29,16 +29,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find or create user
-    let user = await prisma.user.findUnique({
+    // Find or create user without race conditions
+    const user = await prisma.user.upsert({
       where: { username },
+      update: {},
+      create: { username },
     });
-
-    if (!user) {
-      user = await prisma.user.create({
-        data: { username },
-      });
-    }
 
     // Get public URL
     const storageUrl = await getPublicUrl(filePath);
@@ -96,16 +92,12 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '25');
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    // Find user
-    let user = await prisma.user.findUnique({
+    // Find or create user without race conditions
+    const user = await prisma.user.upsert({
       where: { username },
+      update: {},
+      create: { username },
     });
-
-    if (!user) {
-      user = await prisma.user.create({
-        data: { username },
-      });
-    }
 
     // Fetch posts with vote aggregates
     const posts = await prisma.post.findMany({
@@ -168,4 +160,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-

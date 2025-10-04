@@ -20,16 +20,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find or create user
-    let user = await prisma.user.findUnique({
+    const user = await prisma.user.upsert({
       where: { username },
+      update: {},
+      create: { username },
     });
-
-    if (!user) {
-      user = await prisma.user.create({
-        data: { username },
-      });
-    }
 
     const post = await prisma.post.findUnique({
       where: { id: postId },
@@ -152,16 +147,11 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Find user
-    let user = await prisma.user.findUnique({
+    const user = await prisma.user.upsert({
       where: { username },
+      update: {},
+      create: { username },
     });
-
-    if (!user) {
-      user = await prisma.user.create({
-        data: { username },
-      });
-    }
 
     const comments = await prisma.comment.findMany({
       where: { postId },

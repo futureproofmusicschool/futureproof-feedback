@@ -23,16 +23,11 @@ export async function POST(
       );
     }
 
-    // Find or create user
-    let user = await prisma.user.findUnique({
+    const user = await prisma.user.upsert({
       where: { username },
+      update: {},
+      create: { username },
     });
-
-    if (!user) {
-      user = await prisma.user.create({
-        data: { username },
-      });
-    }
 
     // Check if comment exists
     const comment = await prisma.comment.findUnique({ where: { id } });

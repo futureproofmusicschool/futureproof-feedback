@@ -8,16 +8,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Missing x-username header' }, { status: 401 });
   }
 
-  // Find or create user
-  let user = await prisma.user.findUnique({
+  const user = await prisma.user.upsert({
     where: { username },
+    update: {},
+    create: { username },
   });
-
-  if (!user) {
-    user = await prisma.user.create({
-      data: { username },
-    });
-  }
 
   return NextResponse.json({
     id: user.id,
@@ -25,4 +20,3 @@ export async function GET(request: NextRequest) {
     createdAt: user.createdAt,
   });
 }
-

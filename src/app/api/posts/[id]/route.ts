@@ -14,16 +14,11 @@ export async function GET(
   try {
     const { id } = await params;
 
-    // Find user
-    let user = await prisma.user.findUnique({
+    const user = await prisma.user.upsert({
       where: { username },
+      update: {},
+      create: { username },
     });
-
-    if (!user) {
-      user = await prisma.user.create({
-        data: { username },
-      });
-    }
 
     const post = await prisma.post.findUnique({
       where: { id },
@@ -73,4 +68,3 @@ export async function GET(
     );
   }
 }
-
