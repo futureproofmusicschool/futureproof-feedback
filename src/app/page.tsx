@@ -1,12 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Feed from '@/components/Feed';
 import SubmitButton from '@/components/SubmitButton';
 import SubmitModal from '@/components/SubmitModal';
 
 export default function Home() {
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <HomeContent />
+    </Suspense>
+  );
+}
+
+function HomeContent() {
   const searchParams = useSearchParams();
   const [username, setUsername] = useState<string | null>(null);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
@@ -30,14 +38,7 @@ export default function Home() {
   }, [searchParams]);
 
   if (!username) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">Loading...</h1>
-          <p className="text-gray-600">Initializing application</p>
-        </div>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (
@@ -69,3 +70,13 @@ export default function Home() {
   );
 }
 
+function LoadingScreen() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold mb-2">Loading...</h1>
+        <p className="text-gray-600">Initializing application</p>
+      </div>
+    </div>
+  );
+}
