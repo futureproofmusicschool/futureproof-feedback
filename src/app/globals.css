@@ -12,7 +12,7 @@ body {
 
 /* Audio Player Dark Theme Styling */
 audio {
-  background: #222222;
+  background: #DDDDDD;
   border-radius: 8px;
   padding: 12px 8px;
   filter: invert(1) hue-rotate(180deg);
