@@ -16,6 +16,8 @@ model User {
   postVotes     PostVote[]
   comments      Comment[]
   commentVotes  CommentVote[]
+  notifications Notification[]        @relation("NotificationRecipient")
+  triggeredNotifications Notification[] @relation("NotificationActor")
 
   @@map("users")
 }
@@ -37,6 +39,7 @@ model Post {
   author   User         @relation(fields: [authorUserId], references: [id], onDelete: Cascade)
   votes    PostVote[]
   comments Comment[]
+  notifications Notification[]
 
   @@index([createdAt(sort: Desc)])
   @@index([scoreCached(sort: Desc), createdAt(sort: Desc)])
@@ -70,6 +73,7 @@ model Comment {
   parentComment Comment?      @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: Cascade)
   replies       Comment[]     @relation("CommentReplies")
   votes         CommentVote[]
+  notifications Notification[]
 
   @@index([postId, parentCommentId, createdAt])
   @@map("comments")
@@ -88,3 +92,27 @@ model CommentVote {
   @@map("comment_votes")
 }
 
+enum NotificationType {
+  COMMENT_ON_POST
+  REPLY_TO_COMMENT
+}
+
+model Notification {
+  id               String           @id @default(uuid()) @db.Uuid
+  userId           String           @map("user_id") @db.Uuid
+  commentId        String           @map("comment_id") @db.Uuid
+  postId           String           @map("post_id") @db.Uuid
+  triggeredByUserId String          @map("triggered_by_user_id") @db.Uuid
+  type             NotificationType
+  isRead           Boolean          @default(false) @map("is_read")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  readAt           DateTime?        @map("read_at")
+
+  user       User    @relation("NotificationRecipient", fields: [userId], references: [id], onDelete: Cascade)
+  comment    Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  post       Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  actor      User    @relation("NotificationActor", fields: [triggeredByUserId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt(sort: Desc)])
+  @@map("notifications")
+}

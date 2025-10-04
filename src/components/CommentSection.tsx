@@ -17,9 +17,10 @@ interface CommentData {
 interface CommentSectionProps {
   postId: string;
   username: string;
+  highlightCommentId?: string | null;
 }
 
-export default function CommentSection({ postId, username }: CommentSectionProps) {
+export default function CommentSection({ postId, username, highlightCommentId }: CommentSectionProps) {
   const [comments, setComments] = useState<CommentData[]>([]);
   const [newCommentBody, setNewCommentBody] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -27,6 +28,22 @@ export default function CommentSection({ postId, username }: CommentSectionProps
   useEffect(() => {
     fetchComments();
   }, [postId]);
+
+  useEffect(() => {
+    if (!highlightCommentId) return;
+
+    const element = document.getElementById(`comment-${highlightCommentId}`);
+    if (!element) return;
+
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    element.classList.add('ring-2', 'ring-brand-purple-light');
+
+    const timeout = window.setTimeout(() => {
+      element.classList.remove('ring-2', 'ring-brand-purple-light');
+    }, 3000);
+
+    return () => window.clearTimeout(timeout);
+  }, [comments, highlightCommentId]);
 
   const fetchComments = async () => {
     try {
@@ -180,6 +197,7 @@ export default function CommentSection({ postId, username }: CommentSectionProps
               onReply={handleReply}
               onDelete={handleDeleteComment}
               username={username}
+              highlightCommentId={highlightCommentId ?? undefined}
             />
           ))}
         </div>
@@ -187,4 +205,3 @@ export default function CommentSection({ postId, username }: CommentSectionProps
     </div>
   );
 }
-

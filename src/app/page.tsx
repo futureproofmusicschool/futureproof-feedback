@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Feed from '@/components/Feed';
 import SubmitButton from '@/components/SubmitButton';
 import SubmitModal from '@/components/SubmitModal';
+import NotificationsMenu from '@/components/NotificationsMenu';
 
 export default function Home() {
   return (
@@ -51,6 +52,7 @@ function HomeContent() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-text-light">u/{username}</span>
+            <NotificationsMenu username={username} />
             <SubmitButton onClick={() => setIsSubmitModalOpen(true)} />
           </div>
         </div>

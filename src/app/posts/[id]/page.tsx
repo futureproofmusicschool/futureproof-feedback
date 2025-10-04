@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react';
 import { useSearchParams, useParams, useRouter } from 'next/navigation';
 import PostDetail from '@/components/PostDetail';
 import CommentSection from '@/components/CommentSection';
+import NotificationsMenu from '@/components/NotificationsMenu';
 
 export default function PostPage() {
   const searchParams = useSearchParams();
   const params = useParams();
   const router = useRouter();
   const [username, setUsername] = useState<string | null>(null);
+  const highlightCommentId = searchParams.get('highlight');
+  const notificationId = searchParams.get('notificationId');
 
   useEffect(() => {
     const u = searchParams.get('u');
@@ -26,6 +29,27 @@ export default function PostPage() {
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (!username || !notificationId) return;
+
+    const markAsRead = async () => {
+      try {
+        await fetch('/api/notifications/mark-read', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-username': username,
+          },
+          body: JSON.stringify({ notificationIds: [notificationId] }),
+        });
+      } catch (error) {
+        console.error('Error marking notification from URL as read:', error);
+      }
+    };
+
+    markAsRead();
+  }, [notificationId, username]);
 
   if (!username) {
     return (
@@ -55,17 +79,23 @@ export default function PostPage() {
               <p className="text-xs text-brand-gray">Share your music, get feedback</p>
             </div>
           </div>
-          <span className="text-sm text-text-light">u/{username}</span>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-text-light">u/{username}</span>
+            <NotificationsMenu username={username} />
+          </div>
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-6">
         <PostDetail postId={postId} username={username} />
         <div className="mt-6">
-          <CommentSection postId={postId} username={username} />
+          <CommentSection
+            postId={postId}
+            username={username}
+            highlightCommentId={highlightCommentId}
+          />
         </div>
       </main>
     </div>
   );
 }
-

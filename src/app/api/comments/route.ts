@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { NotificationType } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
@@ -30,6 +31,50 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      select: {
+        id: true,
+        authorUserId: true,
+      },
+    });
+
+    if (!post) {
+      return NextResponse.json(
+        { error: 'Post not found' },
+        { status: 404 }
+      );
+    }
+
+    let parentCommentAuthorId: string | null = null;
+
+    if (parentCommentId) {
+      const parentComment = await prisma.comment.findUnique({
+        where: { id: parentCommentId },
+        select: {
+          id: true,
+          authorUserId: true,
+          postId: true,
+        },
+      });
+
+      if (!parentComment) {
+        return NextResponse.json(
+          { error: 'Parent comment not found' },
+          { status: 404 }
+        );
+      }
+
+      if (parentComment.postId !== post.id) {
+        return NextResponse.json(
+          { error: 'Parent comment does not belong to the same post' },
+          { status: 400 }
+        );
+      }
+
+      parentCommentAuthorId = parentComment.authorUserId;
+    }
+
     const comment = await prisma.comment.create({
       data: {
         postId,
@@ -54,6 +99,30 @@ export async function POST(request: NextRequest) {
         value: 1,
       },
     });
+
+    const recipientMap = new Map<string, NotificationType>();
+
+    if (post.authorUserId !== user.id) {
+      recipientMap.set(post.authorUserId, NotificationType.COMMENT_ON_POST);
+    }
+
+    if (parentCommentAuthorId && parentCommentAuthorId !== user.id) {
+      recipientMap.set(parentCommentAuthorId, NotificationType.REPLY_TO_COMMENT);
+    }
+
+    const notificationsData = Array.from(recipientMap.entries()).map(
+      ([recipientId, type]) => ({
+        userId: recipientId,
+        commentId: comment.id,
+        postId: post.id,
+        triggeredByUserId: user.id,
+        type,
+      })
+    );
+
+    if (notificationsData.length > 0) {
+      await prisma.notification.createMany({ data: notificationsData });
+    }
 
     return NextResponse.json(comment, { status: 201 });
   } catch (error) {
@@ -136,4 +205,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-

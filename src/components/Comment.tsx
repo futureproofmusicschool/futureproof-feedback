@@ -23,6 +23,7 @@ interface CommentProps {
   onDelete: (commentId: string) => void;
   username: string;
   depth?: number;
+  highlightCommentId?: string;
 }
 
 export default function Comment({
@@ -33,6 +34,7 @@ export default function Comment({
   onDelete,
   username,
   depth = 0,
+  highlightCommentId,
 }: CommentProps) {
   const [isReplying, setIsReplying] = useState(false);
   const [replyBody, setReplyBody] = useState('');
@@ -40,6 +42,7 @@ export default function Comment({
   const [isDeleting, setIsDeleting] = useState(false);
 
   const replies = allComments.filter((c) => c.parentCommentId === comment.id);
+  const isHighlighted = highlightCommentId === comment.id;
 
   const handleSubmitReply = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +68,10 @@ export default function Comment({
 
   return (
     <div className={`${depth > 0 ? 'ml-8 border-l-2 border-bg-light pl-4' : ''}`}>
-      <div className="flex gap-2">
+      <div
+        id={`comment-${comment.id}`}
+        className={`flex gap-2 ${isHighlighted ? 'bg-bg-light border border-brand-purple-light rounded-md p-2 shadow-lg' : ''}`}
+      >
         <div className="w-8">
           <VoteButtons
             score={comment.score}
@@ -151,6 +157,7 @@ export default function Comment({
                       onDelete={onDelete}
                       username={username}
                       depth={depth + 1}
+                      highlightCommentId={highlightCommentId}
                     />
                   ))}
                 </div>
@@ -162,4 +169,3 @@ export default function Comment({
     </div>
   );
 }
-
