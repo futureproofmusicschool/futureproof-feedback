@@ -121,14 +121,14 @@ export default function CommentSection({ postId, username }: CommentSectionProps
   const topLevelComments = comments.filter((c) => !c.parentCommentId);
 
   return (
-    <div className="bg-white rounded-md border border-gray-300 p-4">
-      <h2 className="text-lg font-bold mb-4">Comments</h2>
+    <div className="bg-bg-medium rounded-md border border-bg-light p-4">
+      <h2 className="text-lg font-bold mb-4 text-text-light">Comments</h2>
 
       <form onSubmit={handleSubmitComment} className="mb-6">
         <textarea
           value={newCommentBody}
           onChange={(e) => setNewCommentBody(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-reddit-blue resize-none"
+          className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple resize-none text-text-light"
           rows={3}
           placeholder="What are your thoughts?"
           disabled={submitting}
@@ -136,7 +136,7 @@ export default function CommentSection({ postId, username }: CommentSectionProps
         <div className="mt-2 flex justify-end">
           <button
             type="submit"
-            className="px-4 py-2 bg-reddit-blue text-white rounded-full text-sm font-medium hover:bg-blue-600 disabled:opacity-50"
+            className="px-4 py-2 bg-brand-purple text-white rounded-full text-sm font-semibold hover:bg-brand-purple-light disabled:opacity-50"
             disabled={submitting || !newCommentBody.trim()}
           >
             {submitting ? 'Commenting...' : 'Comment'}
@@ -145,7 +145,7 @@ export default function CommentSection({ postId, username }: CommentSectionProps
       </form>
 
       {comments.length === 0 ? (
-        <p className="text-gray-600 text-center py-4">
+        <p className="text-brand-gray text-center py-4">
           No comments yet. Be the first to comment!
         </p>
       ) : (

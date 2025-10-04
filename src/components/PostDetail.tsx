@@ -70,17 +70,17 @@ export default function PostDetail({ postId, username }: PostDetailProps) {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading post...</div>;
+    return <div className="text-center py-8 text-brand-gray">Loading post...</div>;
   }
 
   if (!post) {
-    return <div className="text-center py-8">Post not found</div>;
+    return <div className="text-center py-8 text-brand-gray">Post not found</div>;
   }
 
   return (
-    <div className="bg-white rounded-md border border-gray-300">
+    <div className="bg-bg-medium rounded-md border border-bg-light">
       <div className="flex">
-        <div className="w-12 bg-gray-50 flex flex-col items-center pt-4">
+        <div className="w-12 bg-bg-light flex flex-col items-center pt-4">
           <VoteButtons
             score={post.score}
             userVote={post.userVote}
@@ -89,8 +89,8 @@ export default function PostDetail({ postId, username }: PostDetailProps) {
         </div>
 
         <div className="flex-1 p-4">
-          <h1 className="text-2xl font-bold mb-2">{post.title}</h1>
-          <div className="text-sm text-gray-600 mb-4">
+          <h1 className="text-2xl font-bold mb-2 text-text-light">{post.title}</h1>
+          <div className="text-sm text-brand-gray mb-4">
             Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
           </div>
 

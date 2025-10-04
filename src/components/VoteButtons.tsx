@@ -20,7 +20,7 @@ export default function VoteButtons({ score, userVote, onVote }: VoteButtonsProp
       <button
         onClick={handleUpvote}
         className={`text-xl ${
-          userVote === 1 ? 'text-reddit-orange' : 'text-gray-400 hover:text-reddit-orange'
+          userVote === 1 ? 'text-brand-purple-light' : 'text-brand-gray hover:text-brand-purple-light'
         }`}
         aria-label="Upvote"
       >
@@ -29,10 +29,10 @@ export default function VoteButtons({ score, userVote, onVote }: VoteButtonsProp
       <span
         className={`text-sm font-bold ${
           userVote === 1
-            ? 'text-reddit-orange'
+            ? 'text-brand-purple-light'
             : userVote === -1
-            ? 'text-reddit-blue'
-            : 'text-gray-700'
+            ? 'text-brand-purple'
+            : 'text-text-light'
         }`}
       >
         {score}
@@ -40,7 +40,7 @@ export default function VoteButtons({ score, userVote, onVote }: VoteButtonsProp
       <button
         onClick={handleDownvote}
         className={`text-xl ${
-          userVote === -1 ? 'text-reddit-blue' : 'text-gray-400 hover:text-reddit-blue'
+          userVote === -1 ? 'text-brand-purple' : 'text-brand-gray hover:text-brand-purple'
         }`}
         aria-label="Downvote"
       >

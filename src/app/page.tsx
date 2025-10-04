@@ -42,15 +42,15 @@ function HomeContent() {
   }
 
   return (
-    <div className="min-h-screen">
-      <header className="bg-white border-b border-gray-300 sticky top-0 z-10">
+    <div className="min-h-screen bg-bg-dark">
+      <header className="bg-bg-medium border-b border-bg-light sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-reddit-orange">Feedback</h1>
-            <p className="text-xs text-gray-600">Share your music, get feedback</p>
+            <h1 className="text-xl font-bold text-brand-purple-light">Feedback</h1>
+            <p className="text-xs text-brand-gray">Share your music, get feedback</p>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-700">u/{username}</span>
+            <span className="text-sm text-text-light">u/{username}</span>
             <SubmitButton onClick={() => setIsSubmitModalOpen(true)} />
           </div>
         </div>
@@ -72,10 +72,10 @@ function HomeContent() {
 
 function LoadingScreen() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen bg-bg-dark flex items-center justify-center">
       <div className="text-center">
-        <h1 className="text-2xl font-bold mb-2">Loading...</h1>
-        <p className="text-gray-600">Initializing application</p>
+        <h1 className="text-2xl font-bold mb-2 text-text-light">Loading...</h1>
+        <p className="text-brand-gray">Initializing application</p>
       </div>
     </div>
   );

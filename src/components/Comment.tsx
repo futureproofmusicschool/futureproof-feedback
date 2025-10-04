@@ -48,7 +48,7 @@ export default function Comment({
   };
 
   return (
-    <div className={`${depth > 0 ? 'ml-8 border-l-2 border-gray-200 pl-4' : ''}`}>
+    <div className={`${depth > 0 ? 'ml-8 border-l-2 border-bg-light pl-4' : ''}`}>
       <div className="flex gap-2">
         <div className="w-8">
           <VoteButtons
@@ -59,10 +59,10 @@ export default function Comment({
         </div>
 
         <div className="flex-1">
-          <div className="text-xs text-gray-600 mb-1">
+          <div className="text-xs text-brand-gray mb-1">
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="hover:underline font-medium"
+              className="hover:underline font-semibold text-text-light"
             >
               u/{comment.author}
             </button>{' '}
@@ -72,12 +72,12 @@ export default function Comment({
 
           {!isCollapsed && (
             <>
-              <p className="text-sm mb-2 whitespace-pre-wrap">{comment.body}</p>
+              <p className="text-sm mb-2 whitespace-pre-wrap text-text-light">{comment.body}</p>
 
-              <div className="flex gap-3 text-xs text-gray-600">
+              <div className="flex gap-3 text-xs text-brand-gray">
                 <button
                   onClick={() => setIsReplying(!isReplying)}
-                  className="hover:underline"
+                  className="hover:underline hover:text-brand-purple-light"
                 >
                   Reply
                 </button>
@@ -88,7 +88,7 @@ export default function Comment({
                   <textarea
                     value={replyBody}
                     onChange={(e) => setReplyBody(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-reddit-blue resize-none text-sm"
+                    className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple resize-none text-sm text-text-light"
                     rows={3}
                     placeholder="Write your reply..."
                     autoFocus
@@ -96,7 +96,7 @@ export default function Comment({
                   <div className="mt-2 flex gap-2">
                     <button
                       type="submit"
-                      className="px-3 py-1 bg-reddit-blue text-white rounded-full text-xs font-medium hover:bg-blue-600"
+                      className="px-3 py-1 bg-brand-purple text-white rounded-full text-xs font-semibold hover:bg-brand-purple-light"
                     >
                       Reply
                     </button>
@@ -106,7 +106,7 @@ export default function Comment({
                         setIsReplying(false);
                         setReplyBody('');
                       }}
-                      className="px-3 py-1 text-gray-700 hover:bg-gray-100 rounded-full text-xs"
+                      className="px-3 py-1 text-text-light hover:bg-bg-light rounded-full text-xs"
                     >
                       Cancel
                     </button>

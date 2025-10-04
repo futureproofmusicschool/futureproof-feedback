@@ -34,9 +34,9 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-md border border-gray-300 overflow-hidden hover:border-gray-400 transition">
+    <div className="bg-bg-medium rounded-md border border-bg-light overflow-hidden hover:border-brand-gray transition">
       <div className="flex">
-        <div className="w-12 bg-gray-50 flex flex-col items-center pt-2">
+        <div className="w-12 bg-bg-light flex flex-col items-center pt-2">
           <VoteButtons
             score={post.score}
             userVote={post.userVote}
@@ -47,22 +47,22 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
         <div className="flex-1 p-3">
           <div className="mb-2">
             <h2
-              className="text-lg font-medium mb-1 cursor-pointer hover:underline"
+              className="text-lg font-semibold mb-1 cursor-pointer hover:underline text-text-light"
               onClick={handleCommentsClick}
             >
               {post.title}
             </h2>
-            <div className="text-xs text-gray-600">
+            <div className="text-xs text-brand-gray">
               Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
             </div>
           </div>
 
           <AudioPlayer url={post.storageUrl} mimeType={post.mimeType} />
 
-          <div className="mt-3 flex gap-4 text-sm text-gray-600">
+          <div className="mt-3 flex gap-4 text-sm text-brand-gray">
             <button
               onClick={handleCommentsClick}
-              className="hover:bg-gray-100 px-2 py-1 rounded"
+              className="hover:bg-bg-light px-2 py-1 rounded transition"
             >
               💬 {post.commentCount} {post.commentCount === 1 ? 'Comment' : 'Comments'}
             </button>

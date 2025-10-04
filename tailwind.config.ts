@@ -8,10 +8,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Source Sans Pro', 'sans-serif'],
+      },
       colors: {
-        reddit: {
-          orange: '#FF4500',
-          blue: '#0079D3',
+        brand: {
+          primary: '#000000',
+          purple: '#5628A1',
+          'purple-light': '#A373F8',
+          gray: '#BBBDC5',
+        },
+        bg: {
+          dark: '#111111',
+          medium: '#222222',
+          light: '#444444',
+        },
+        text: {
+          light: '#F6F8FF',
         }
       }
     },

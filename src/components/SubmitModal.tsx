@@ -136,13 +136,13 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-lg w-full p-6">
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+      <div className="bg-bg-medium rounded-lg max-w-lg w-full p-6 border border-bg-light">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Submit a Track</h2>
+          <h2 className="text-xl font-bold text-text-light">Submit a Track</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="text-brand-gray hover:text-text-light text-2xl"
           >
             ×
           </button>
@@ -150,21 +150,21 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-text-light mb-2">
               Title
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-reddit-blue"
+              className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple text-text-light"
               placeholder="Give your track a title"
               disabled={uploading}
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-text-light mb-2">
               Audio File (MP3 or WAV, &lt; 10 minutes)
             </label>
             <input
@@ -172,18 +172,18 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
               type="file"
               accept="audio/mp3,audio/mpeg,audio/wav"
               onChange={handleFileChange}
-              className="w-full"
+              className="w-full text-brand-gray file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-purple file:text-white hover:file:bg-brand-purple-light"
               disabled={uploading}
             />
             {file && (
-              <p className="mt-2 text-sm text-green-600">
+              <p className="mt-2 text-sm text-brand-purple-light">
                 ✓ {file.name} selected
               </p>
             )}
           </div>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
+            <div className="mb-4 p-3 bg-red-900 bg-opacity-20 border border-red-500 rounded text-red-400 text-sm">
               {error}
             </div>
           )}
@@ -192,14 +192,14 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md"
+              className="px-4 py-2 text-text-light hover:bg-bg-light rounded-md transition"
               disabled={uploading}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-reddit-orange text-white rounded-md hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-brand-purple text-white rounded-md font-semibold hover:bg-brand-purple-light disabled:opacity-50 disabled:cursor-not-allowed transition"
               disabled={uploading || !title || !file}
             >
               {uploading ? 'Uploading...' : 'Submit'}

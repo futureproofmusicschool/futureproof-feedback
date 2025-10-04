@@ -29,9 +29,9 @@ export default function PostPage() {
 
   if (!username) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-bg-dark flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-2">Loading...</h1>
+          <h1 className="text-2xl font-bold mb-2 text-text-light">Loading...</h1>
         </div>
       </div>
     );
@@ -40,22 +40,22 @@ export default function PostPage() {
   const postId = params.id as string;
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white border-b border-gray-300 sticky top-0 z-10">
+    <div className="min-h-screen bg-bg-dark">
+      <header className="bg-bg-medium border-b border-bg-light sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.back()}
-              className="text-sm text-blue-600 hover:underline"
+              className="text-sm text-brand-purple-light hover:underline"
             >
               ← Back
             </button>
             <div>
-              <h1 className="text-xl font-bold text-reddit-orange">Feedback</h1>
-              <p className="text-xs text-gray-600">Share your music, get feedback</p>
+              <h1 className="text-xl font-bold text-brand-purple-light">Feedback</h1>
+              <p className="text-xs text-brand-gray">Share your music, get feedback</p>
             </div>
           </div>
-          <span className="text-sm text-gray-700">u/{username}</span>
+          <span className="text-sm text-text-light">u/{username}</span>
         </div>
       </header>
 
