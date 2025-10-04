@@ -16,7 +16,7 @@ export async function POST(
     const body = await request.json();
     const { value } = body;
 
-    if (![−1, 0, 1].includes(value)) {
+    if (![-1, 0, 1].includes(value)) {
       return NextResponse.json(
         { error: 'Vote value must be -1, 0, or 1' },
         { status: 400 }
@@ -85,4 +85,3 @@ export async function POST(
     );
   }
 }
-
