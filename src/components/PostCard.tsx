@@ -62,7 +62,7 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
           <div className="mt-3 flex gap-4 text-sm text-brand-gray">
             <button
               onClick={handleCommentsClick}
-              className="hover:bg-bg-light px-2 py-1 rounded transition"
+              className="hover:bg-bg-light px-2 py-1 rounded-full transition"
             >
               💬 {post.commentCount} {post.commentCount === 1 ? 'Comment' : 'Comments'}
             </button>

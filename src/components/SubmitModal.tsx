@@ -172,7 +172,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
               type="file"
               accept="audio/mp3,audio/mpeg,audio/wav"
               onChange={handleFileChange}
-              className="w-full text-brand-gray file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-purple file:text-white hover:file:bg-brand-purple-light"
+              className="w-full text-brand-gray file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-purple file:text-white hover:file:bg-brand-purple-light"
               disabled={uploading}
             />
             {file && (
@@ -192,14 +192,14 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-text-light hover:bg-bg-light rounded-md transition"
+              className="px-4 py-2 text-text-light hover:bg-bg-light rounded-full transition"
               disabled={uploading}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-brand-purple text-white rounded-md font-semibold hover:bg-brand-purple-light disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className="px-4 py-2 bg-brand-purple text-white rounded-full font-semibold hover:bg-brand-purple-light disabled:opacity-50 disabled:cursor-not-allowed transition"
               disabled={uploading || !title || !file}
             >
               {uploading ? 'Uploading...' : 'Submit'}
