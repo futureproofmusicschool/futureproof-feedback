@@ -10,3 +10,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Audio Player Dark Theme Styling */
+audio {
+  background: #000000;
+  border-radius: 8px;
+  padding: 12px 8px;
+  filter: invert(1) hue-rotate(180deg);
+  width: 100%;
+}
+
+/* For Firefox */
+audio::-moz-media-controls {
+  filter: invert(1) hue-rotate(180deg);
+}
+
