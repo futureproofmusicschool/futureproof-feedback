@@ -75,14 +75,14 @@ export default function Feed({ username }: FeedProps) {
 
   return (
     <div>
-      <div className="bg-bg-medium rounded-md p-3 mb-4 flex gap-2 border border-bg-light">
+      <div className="bg-bg-medium rounded-lg p-3 mb-4 flex gap-2 border-2 border-brand-purple shadow-purple-glow">
         {(['hot', 'new', 'top'] as SortOption[]).map((option) => (
           <button
             key={option}
             onClick={() => setSort(option)}
-            className={`px-4 py-2 rounded-full text-sm font-semibold capitalize transition ${
+            className={`px-4 py-2 rounded-full text-sm font-bold capitalize transition ${
               sort === option
-                ? 'bg-brand-purple text-white'
+                ? 'bg-brand-purple text-white shadow-purple-glow'
                 : 'bg-bg-light text-brand-gray hover:bg-bg-light hover:text-text-light'
             }`}
           >
@@ -94,7 +94,7 @@ export default function Feed({ username }: FeedProps) {
       {loading ? (
         <div className="text-center py-8 text-brand-gray">Loading posts...</div>
       ) : posts.length === 0 ? (
-        <div className="bg-bg-medium rounded-md p-8 text-center border border-bg-light">
+        <div className="bg-bg-medium rounded-lg p-8 text-center border-2 border-brand-purple shadow-purple-glow">
           <p className="text-brand-gray">No posts yet. Be the first to share!</p>
         </div>
       ) : (

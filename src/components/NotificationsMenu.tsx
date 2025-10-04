@@ -134,7 +134,7 @@ export default function NotificationsMenu({ username }: NotificationsMenuProps) 
     <div className="relative">
       <button
         onClick={handleToggle}
-        className="relative w-8 h-8 rounded-full bg-brand-purple text-white text-sm font-semibold flex items-center justify-center hover:bg-brand-purple-light transition"
+        className="relative w-8 h-8 rounded-full bg-brand-purple text-white text-sm font-bold flex items-center justify-center hover:bg-brand-purple-bright shadow-purple-glow hover:shadow-purple-glow-lg transition"
         aria-label={`View notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
       >
         {unreadCount}
@@ -142,7 +142,7 @@ export default function NotificationsMenu({ username }: NotificationsMenuProps) 
 
       {isOpen && (
         <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)}>
-          <div className="absolute right-4 top-20 w-80 max-w-full bg-bg-medium border border-bg-light rounded-lg shadow-xl p-4 z-50"
+          <div className="absolute right-4 top-20 w-80 max-w-full bg-bg-medium border-2 border-brand-purple rounded-lg shadow-purple-glow-lg p-4 z-50"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-3">
@@ -150,7 +150,7 @@ export default function NotificationsMenu({ username }: NotificationsMenuProps) 
               <button
                 onClick={handleClearAll}
                 disabled={isClearing}
-                className="text-xs text-brand-purple-light hover:underline disabled:opacity-50"
+                className="text-xs text-brand-purple-bright hover:underline disabled:opacity-50 font-bold"
               >
                 Clear all
               </button>
@@ -166,12 +166,12 @@ export default function NotificationsMenu({ username }: NotificationsMenuProps) 
                   <li key={item.id}>
                     <button
                       onClick={() => handleNotificationClick(item)}
-                      className="w-full text-left bg-bg-light border border-bg-light rounded-md p-3 hover:border-brand-purple-light transition"
+                      className="w-full text-left bg-bg-light border-2 border-brand-purple rounded-md p-3 hover:border-brand-purple-bright hover:shadow-purple-glow transition"
                     >
-                      <p className="text-xs text-text-light font-semibold mb-1">
+                      <p className="text-xs text-text-light font-bold mb-1">
                         {getMessage(item)}
                       </p>
-                      <p className="text-xs text-brand-purple-light font-semibold truncate">
+                      <p className="text-xs text-brand-purple-bright font-bold truncate">
                         {item.postTitle}
                       </p>
                       <p className="text-xs text-brand-gray mt-1 truncate">

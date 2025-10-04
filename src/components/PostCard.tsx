@@ -36,7 +36,7 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
   };
 
   return (
-    <div className="bg-bg-medium rounded-md border border-bg-light overflow-hidden hover:border-brand-gray transition">
+    <div className="bg-bg-medium rounded-lg border-2 border-brand-purple shadow-purple-glow overflow-hidden hover:border-brand-purple-bright hover:shadow-purple-glow-lg transition">
       <div className="flex">
         <div className="w-12 bg-bg-light flex flex-col items-center pt-2">
           <VoteButtons
@@ -49,7 +49,7 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
         <div className="flex-1 p-3">
           <div className="flex justify-between items-start mb-2">
             <h2
-              className="text-lg font-semibold cursor-pointer hover:underline text-text-light flex-1"
+              className="text-lg font-bold cursor-pointer hover:underline text-text-light flex-1"
               onClick={handleCommentsClick}
             >
               {post.title}
@@ -58,7 +58,7 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
               <div className="text-xs text-brand-gray whitespace-nowrap">
                 Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
               </div>
-              <div className="text-xs text-brand-purple-light font-semibold">
+              <div className="text-xs text-brand-purple-bright font-bold">
                 Genre: {post.genre}
               </div>
             </div>
@@ -69,7 +69,7 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
           <div className="mt-3 flex gap-4 text-sm text-brand-gray">
             <button
               onClick={handleCommentsClick}
-              className="hover:bg-bg-light px-2 py-1 rounded-full transition"
+              className="hover:bg-bg-light hover:text-brand-purple-bright px-2 py-1 rounded-full transition font-semibold"
             >
               💬 {post.commentCount} {post.commentCount === 1 ? 'Comment' : 'Comments'}
             </button>

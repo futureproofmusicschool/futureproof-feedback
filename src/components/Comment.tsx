@@ -67,10 +67,10 @@ export default function Comment({
   };
 
   return (
-    <div className={`${depth > 0 ? 'ml-8 border-l-2 border-bg-light pl-4' : ''}`}>
+    <div className={`${depth > 0 ? 'ml-8 border-l-2 border-brand-purple pl-4' : ''}`}>
       <div
         id={`comment-${comment.id}`}
-        className={`flex gap-2 ${isHighlighted ? 'bg-bg-light border border-brand-purple-light rounded-md p-2 shadow-lg' : ''}`}
+        className={`flex gap-2 ${isHighlighted ? 'bg-bg-light border-2 border-brand-purple-bright rounded-md p-2 shadow-purple-glow-lg' : ''}`}
       >
         <div className="w-8">
           <VoteButtons
@@ -99,7 +99,7 @@ export default function Comment({
               <div className="flex gap-3 text-xs text-brand-gray">
                 <button
                   onClick={() => setIsReplying(!isReplying)}
-                  className="hover:underline hover:text-brand-purple-light"
+                  className="hover:underline hover:text-brand-purple-bright font-semibold"
                 >
                   Reply
                 </button>
@@ -107,7 +107,7 @@ export default function Comment({
                   <button
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="hover:underline hover:text-red-500 disabled:opacity-50"
+                    className="hover:underline hover:text-red-500 disabled:opacity-50 font-semibold"
                   >
                     {isDeleting ? 'Deleting...' : 'Delete'}
                   </button>
@@ -119,7 +119,7 @@ export default function Comment({
                   <textarea
                     value={replyBody}
                     onChange={(e) => setReplyBody(e.target.value)}
-                    className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple resize-none text-sm text-text-light"
+                    className="w-full px-3 py-2 bg-bg-light border-2 border-brand-purple rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple-bright focus:border-brand-purple-bright resize-none text-sm text-text-light"
                     rows={3}
                     placeholder="Write your reply..."
                     autoFocus
@@ -127,7 +127,7 @@ export default function Comment({
                   <div className="mt-2 flex gap-2">
                     <button
                       type="submit"
-                      className="px-3 py-1 bg-brand-purple text-white rounded-full text-xs font-semibold hover:bg-brand-purple-light"
+                      className="px-3 py-1 bg-brand-purple text-white rounded-full text-xs font-bold hover:bg-brand-purple-bright shadow-purple-glow hover:shadow-purple-glow-lg transition"
                     >
                       Reply
                     </button>
@@ -137,7 +137,7 @@ export default function Comment({
                         setIsReplying(false);
                         setReplyBody('');
                       }}
-                      className="px-3 py-1 text-text-light hover:bg-bg-light rounded-full text-xs"
+                      className="px-3 py-1 text-text-light hover:bg-bg-light rounded-full text-xs font-semibold"
                     >
                       Cancel
                     </button>

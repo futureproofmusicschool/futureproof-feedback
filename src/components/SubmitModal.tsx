@@ -141,7 +141,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-bg-medium rounded-lg max-w-lg w-full p-6 border border-bg-light">
+      <div className="bg-bg-medium rounded-lg max-w-lg w-full p-6 border-2 border-brand-purple shadow-purple-glow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-text-light">Submit a Track</h2>
           <button
@@ -161,7 +161,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple text-text-light"
+              className="w-full px-3 py-2 bg-bg-light border-2 border-brand-purple rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple-bright focus:border-brand-purple-bright text-text-light"
               placeholder="Give your track a title"
               disabled={uploading}
             />
@@ -175,7 +175,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
               type="text"
               value={genre}
               onChange={(e) => setGenre(e.target.value)}
-              className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple text-text-light"
+              className="w-full px-3 py-2 bg-bg-light border-2 border-brand-purple rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple-bright focus:border-brand-purple-bright text-text-light"
               placeholder="e.g., Rock, Jazz, Electronic"
               disabled={uploading}
             />
@@ -188,7 +188,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple text-text-light resize-none"
+              className="w-full px-3 py-2 bg-bg-light border-2 border-brand-purple rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple-bright focus:border-brand-purple-bright text-text-light resize-none"
               rows={4}
               placeholder="Tell us something about how you made the track, what you were going for, and what kind of feedback you're looking for."
               disabled={uploading}
@@ -231,7 +231,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-brand-purple text-white rounded-full font-semibold hover:bg-brand-purple-light disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className="px-4 py-2 bg-brand-purple text-white rounded-full font-bold hover:bg-brand-purple-bright shadow-purple-glow hover:shadow-purple-glow-lg disabled:opacity-50 disabled:cursor-not-allowed transition"
               disabled={uploading || !title || !genre || !description || !file}
             >
               {uploading ? 'Uploading...' : 'Submit'}

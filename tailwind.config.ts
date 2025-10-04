@@ -14,18 +14,24 @@ const config: Config = {
       colors: {
         brand: {
           primary: '#000000',
-          purple: '#5628A1',
-          'purple-light': '#A373F8',
-          gray: '#BBBDC5',
+          purple: '#8B5CF6',
+          'purple-light': '#A78BFA',
+          'purple-bright': '#C084FC',
+          'purple-dark': '#6D28D9',
+          gray: '#9CA3AF',
         },
         bg: {
-          dark: '#111111',
-          medium: '#222222',
-          light: '#444444',
+          dark: '#0A0A0F',
+          medium: '#1A1A2E',
+          light: '#252538',
         },
         text: {
-          light: '#F6F8FF',
+          light: '#F9FAFB',
         }
+      },
+      boxShadow: {
+        'purple-glow': '0 0 15px rgba(139, 92, 246, 0.3)',
+        'purple-glow-lg': '0 0 25px rgba(139, 92, 246, 0.4)',
       }
     },
   },

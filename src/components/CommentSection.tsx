@@ -36,10 +36,10 @@ export default function CommentSection({ postId, username, highlightCommentId }:
     if (!element) return;
 
     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    element.classList.add('ring-2', 'ring-brand-purple-light');
+    element.classList.add('ring-2', 'ring-brand-purple-bright');
 
     const timeout = window.setTimeout(() => {
-      element.classList.remove('ring-2', 'ring-brand-purple-light');
+      element.classList.remove('ring-2', 'ring-brand-purple-bright');
     }, 3000);
 
     return () => window.clearTimeout(timeout);
@@ -159,14 +159,14 @@ export default function CommentSection({ postId, username, highlightCommentId }:
   const topLevelComments = comments.filter((c) => !c.parentCommentId);
 
   return (
-    <div className="bg-bg-medium rounded-md border border-bg-light p-4">
+    <div className="bg-bg-medium rounded-lg border-2 border-brand-purple shadow-purple-glow p-4">
       <h2 className="text-lg font-bold mb-4 text-text-light">Comments</h2>
 
       <form onSubmit={handleSubmitComment} className="mb-6">
         <textarea
           value={newCommentBody}
           onChange={(e) => setNewCommentBody(e.target.value)}
-          className="w-full px-3 py-2 bg-bg-light border border-brand-gray rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple resize-none text-text-light"
+          className="w-full px-3 py-2 bg-bg-light border-2 border-brand-purple rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple-bright focus:border-brand-purple-bright resize-none text-text-light"
           rows={3}
           placeholder="What are your thoughts?"
           disabled={submitting}
@@ -174,7 +174,7 @@ export default function CommentSection({ postId, username, highlightCommentId }:
         <div className="mt-2 flex justify-end">
           <button
             type="submit"
-            className="px-4 py-2 bg-brand-purple text-white rounded-full text-sm font-semibold hover:bg-brand-purple-light disabled:opacity-50"
+            className="px-4 py-2 bg-brand-purple text-white rounded-full text-sm font-bold hover:bg-brand-purple-bright shadow-purple-glow hover:shadow-purple-glow-lg disabled:opacity-50 transition"
             disabled={submitting || !newCommentBody.trim()}
           >
             {submitting ? 'Commenting...' : 'Comment'}

@@ -114,7 +114,7 @@ export default function PostDetail({ postId, username }: PostDetailProps) {
   }
 
   return (
-    <div className="bg-bg-medium rounded-md border border-bg-light">
+    <div className="bg-bg-medium rounded-lg border-2 border-brand-purple shadow-purple-glow">
       <div className="flex">
         <div className="w-12 bg-bg-light flex flex-col items-center pt-4">
           <VoteButtons
@@ -129,14 +129,14 @@ export default function PostDetail({ postId, username }: PostDetailProps) {
           <div className="text-sm text-brand-gray mb-1">
             Posted by u/{post.author} • {formatDistanceToNow(post.createdAt)}
           </div>
-          <div className="text-sm text-brand-purple-light font-semibold mb-4">
+          <div className="text-sm text-brand-purple-bright font-bold mb-4">
             Genre: {post.genre}
           </div>
 
           <AudioPlayer url={post.storageUrl} mimeType={post.mimeType} />
 
-          <div className="mt-4 p-3 bg-bg-light rounded-md border border-bg-light">
-            <h3 className="text-sm font-semibold text-text-light mb-2">Description</h3>
+          <div className="mt-4 p-3 bg-bg-light rounded-md border-2 border-brand-purple">
+            <h3 className="text-sm font-bold text-text-light mb-2">Description</h3>
             <p className="text-sm text-brand-gray whitespace-pre-wrap">{post.description}</p>
           </div>
 
@@ -145,7 +145,7 @@ export default function PostDetail({ postId, username }: PostDetailProps) {
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className="px-4 py-2 bg-red-600 text-white rounded-full text-sm font-semibold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                className="px-4 py-2 bg-red-600 text-white rounded-full text-sm font-bold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
               >
                 {deleting ? 'Deleting...' : 'Delete Post'}
               </button>
