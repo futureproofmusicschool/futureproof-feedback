@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { generateSignedDownloadUrl } from '@/lib/storage';
 
 export async function GET(
   request: NextRequest,
@@ -46,12 +47,15 @@ export async function GET(
     const score = upvotes - downvotes;
     const userVote = post.votes.find((v) => v.userId === user.id)?.value || 0;
 
+    // Generate signed URL that expires in 1 hour
+    const signedUrl = await generateSignedDownloadUrl(post.storagePath, 3600);
+
     return NextResponse.json({
       id: post.id,
       title: post.title,
       genre: post.genre,
       description: post.description,
-      storageUrl: post.storageUrl,
+      storageUrl: signedUrl, // Use signed URL instead of public URL
       mimeType: post.mimeType,
       durationSeconds: post.durationSeconds,
       author: post.author.username,

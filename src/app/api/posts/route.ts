@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getPublicUrl } from '@/lib/storage';
+import { generateSignedDownloadUrl } from '@/lib/storage';
 import { calculateHot, type SortOption } from '@/lib/sorting';
 
 export async function POST(request: NextRequest) {
@@ -36,17 +36,14 @@ export async function POST(request: NextRequest) {
       create: { username },
     });
 
-    // Get public URL
-    const storageUrl = await getPublicUrl(filePath);
-
-    // Create post
+    // Create post (we'll generate signed URLs on-demand for security)
     const post = await prisma.post.create({
       data: {
         authorUserId: user.id,
         title,
         genre,
         description,
-        storageUrl,
+        storageUrl: '', // Will be generated on-demand with signed URLs
         storagePath: filePath,
         mimeType,
         durationSeconds: Math.floor(durationSeconds),
@@ -119,30 +116,35 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    // Calculate scores and user's votes
-    const postsWithScores = posts.map((post) => {
-      const upvotes = post.votes.filter((v) => v.value === 1).length;
-      const downvotes = post.votes.filter((v) => v.value === -1).length;
-      const score = upvotes - downvotes;
-      const userVote = post.votes.find((v) => v.userId === user!.id)?.value || 0;
-      const hot = calculateHot(upvotes, downvotes, post.createdAt);
+    // Calculate scores and user's votes, and generate signed URLs
+    const postsWithScores = await Promise.all(
+      posts.map(async (post) => {
+        const upvotes = post.votes.filter((v) => v.value === 1).length;
+        const downvotes = post.votes.filter((v) => v.value === -1).length;
+        const score = upvotes - downvotes;
+        const userVote = post.votes.find((v) => v.userId === user!.id)?.value || 0;
+        const hot = calculateHot(upvotes, downvotes, post.createdAt);
 
-      return {
-        id: post.id,
-        title: post.title,
-        genre: post.genre,
-        description: post.description,
-        storageUrl: post.storageUrl,
-        mimeType: post.mimeType,
-        durationSeconds: post.durationSeconds,
-        author: post.author.username,
-        createdAt: post.createdAt,
-        score,
-        hot,
-        userVote,
-        commentCount: post._count.comments,
-      };
-    });
+        // Generate signed URL that expires in 1 hour
+        const signedUrl = await generateSignedDownloadUrl(post.storagePath, 3600);
+
+        return {
+          id: post.id,
+          title: post.title,
+          genre: post.genre,
+          description: post.description,
+          storageUrl: signedUrl, // Use signed URL instead of public URL
+          mimeType: post.mimeType,
+          durationSeconds: post.durationSeconds,
+          author: post.author.username,
+          createdAt: post.createdAt,
+          score,
+          hot,
+          userVote,
+          commentCount: post._count.comments,
+        };
+      })
+    );
 
     // Sort based on option
     if (sort === 'top') {

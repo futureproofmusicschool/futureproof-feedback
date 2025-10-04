@@ -31,3 +31,19 @@ export async function getPublicUrl(filePath: string): Promise<string> {
   return data.publicUrl;
 }
 
+// Generate a signed URL that expires after a specified time
+export async function generateSignedDownloadUrl(
+  filePath: string,
+  expiresIn: number = 3600 // Default 1 hour
+): Promise<string> {
+  const { data, error } = await supabaseAdmin.storage
+    .from(STORAGE_BUCKET)
+    .createSignedUrl(filePath, expiresIn);
+
+  if (error) {
+    throw new Error(`Failed to generate signed URL: ${error.message}`);
+  }
+
+  return data.signedUrl;
+}
+
