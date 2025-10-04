@@ -20,6 +20,7 @@ interface CommentProps {
   allComments: CommentData[];
   onVote: (commentId: string, value: number) => void;
   onReply: (parentCommentId: string, body: string) => void;
+  onDelete: (commentId: string) => void;
   username: string;
   depth?: number;
 }
@@ -29,12 +30,14 @@ export default function Comment({
   allComments,
   onVote,
   onReply,
+  onDelete,
   username,
   depth = 0,
 }: CommentProps) {
   const [isReplying, setIsReplying] = useState(false);
   const [replyBody, setReplyBody] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const replies = allComments.filter((c) => c.parentCommentId === comment.id);
 
@@ -44,6 +47,19 @@ export default function Comment({
       onReply(comment.id, replyBody);
       setReplyBody('');
       setIsReplying(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm('Are you sure you want to delete this comment? This action cannot be undone.')) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      onDelete(comment.id);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -81,6 +97,15 @@ export default function Comment({
                 >
                   Reply
                 </button>
+                {comment.author === username && (
+                  <button
+                    onClick={handleDelete}
+                    disabled={isDeleting}
+                    className="hover:underline hover:text-red-500 disabled:opacity-50"
+                  >
+                    {isDeleting ? 'Deleting...' : 'Delete'}
+                  </button>
+                )}
               </div>
 
               {isReplying && (
@@ -123,6 +148,7 @@ export default function Comment({
                       allComments={allComments}
                       onVote={onVote}
                       onReply={onReply}
+                      onDelete={onDelete}
                       username={username}
                       depth={depth + 1}
                     />

@@ -64,6 +64,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Automatically upvote the user's own post
+    await prisma.postVote.create({
+      data: {
+        userId: user.id,
+        postId: post.id,
+        value: 1,
+      },
+    });
+
     return NextResponse.json(post, { status: 201 });
   } catch (error) {
     console.error('Error creating post:', error);

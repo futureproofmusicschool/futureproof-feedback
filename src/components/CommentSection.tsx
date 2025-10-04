@@ -117,6 +117,27 @@ export default function CommentSection({ postId, username }: CommentSectionProps
     }
   };
 
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      const response = await fetch(`/api/comments/${commentId}/delete`, {
+        method: 'DELETE',
+        headers: {
+          'x-username': username,
+        },
+      });
+
+      if (response.ok) {
+        fetchComments();
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Failed to delete comment');
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      alert('Failed to delete comment');
+    }
+  };
+
   // Build comment tree
   const topLevelComments = comments.filter((c) => !c.parentCommentId);
 
@@ -157,6 +178,7 @@ export default function CommentSection({ postId, username }: CommentSectionProps
               allComments={comments}
               onVote={handleVoteComment}
               onReply={handleReply}
+              onDelete={handleDeleteComment}
               username={username}
             />
           ))}

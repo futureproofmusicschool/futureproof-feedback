@@ -46,6 +46,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Automatically upvote the user's own comment
+    await prisma.commentVote.create({
+      data: {
+        userId: user.id,
+        commentId: comment.id,
+        value: 1,
+      },
+    });
+
     return NextResponse.json(comment, { status: 201 });
   } catch (error) {
     console.error('Error creating comment:', error);
