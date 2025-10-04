@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin, STORAGE_BUCKET } from '@/lib/supabase';
 
 export async function DELETE(
   request: NextRequest,
@@ -42,8 +42,8 @@ export async function DELETE(
     }
 
     // Delete the audio file from storage
-    const { error: storageError } = await supabase.storage
-      .from('audio')
+    const { error: storageError } = await supabaseAdmin.storage
+      .from(STORAGE_BUCKET)
       .remove([post.storagePath]);
 
     if (storageError) {
