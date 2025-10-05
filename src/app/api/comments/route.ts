@@ -115,8 +115,29 @@ export async function POST(request: NextRequest) {
       })
     );
 
+    console.log('🔔 Notification recipients:', {
+      postAuthor: post.authorUserId,
+      commenter: user.id,
+      parentCommentAuthor: parentCommentAuthorId,
+      notificationsToCreate: notificationsData.length,
+      data: notificationsData,
+    });
+
     if (notificationsData.length > 0) {
-      await prisma.notification.createMany({ data: notificationsData });
+      try {
+        // Create notifications individually for better compatibility with Supabase pooling
+        const createdNotifications = await Promise.all(
+          notificationsData.map(data =>
+            prisma.notification.create({ data })
+          )
+        );
+        console.log('✅ Notifications created:', createdNotifications.length);
+      } catch (error) {
+        console.error('❌ Error creating notifications:', error);
+        // Don't fail the comment creation if notification creation fails
+      }
+    } else {
+      console.log('⚠️ No notifications to create');
     }
 
     return NextResponse.json(comment, { status: 201 });

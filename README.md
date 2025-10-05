@@ -61,7 +61,18 @@ npx prisma generate
 npx prisma db push
 ```
 
-5. Run the development server
+5. Apply Row Level Security policies (recommended)
+```bash
+# Database RLS
+DATABASE_URL="your-connection-string" ./scripts/setup-rls.sh
+
+# Storage policies (run in Supabase SQL Editor)
+# See: prisma/migrations/storage_policies.sql
+```
+
+See [SECURITY_SETUP.md](./SECURITY_SETUP.md) for detailed security configuration.
+
+6. Run the development server
 ```bash
 npm run dev
 ```
@@ -109,6 +120,10 @@ The `u={{USER.USERNAME}}` parameter passes the LearnWorlds username to the app.
 - No traditional authentication system (trusts LearnWorlds parent)
 - Audio files are served via signed URLs that expire after 1 hour
 - User authorization checks for delete operations (author only)
+- **Row Level Security (RLS)** enabled on all database tables for defense-in-depth
+- Storage bucket policies protect audio file access
+
+**📖 See [SECURITY_SETUP.md](./SECURITY_SETUP.md) for complete security configuration.**
 
 ## Database Schema
 
