@@ -45,6 +45,32 @@ function HomeContent() {
     return () => window.removeEventListener('message', handleMessage);
   }, [searchParams]);
 
+  // Send height updates to parent iframe
+  useEffect(() => {
+    const sendHeight = () => {
+      const height = document.documentElement.scrollHeight;
+      window.parent.postMessage(
+        { type: 'resize', height },
+        '*'
+      );
+    };
+
+    // Send initial height
+    sendHeight();
+
+    // Send height on resize
+    const resizeObserver = new ResizeObserver(sendHeight);
+    resizeObserver.observe(document.body);
+
+    // Send height periodically (catches dynamic content)
+    const interval = setInterval(sendHeight, 500);
+
+    return () => {
+      resizeObserver.disconnect();
+      clearInterval(interval);
+    };
+  }, [username]);
+
   if (!username) {
     return <LoadingScreen />;
   }
