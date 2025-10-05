@@ -141,7 +141,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-bg-medium rounded-lg max-w-lg w-full p-6 border-2 border-brand-purple shadow-purple-glow-lg">
+      <div className="bg-bg-medium rounded-lg max-w-3xl w-full p-6 border-2 border-brand-purple shadow-purple-glow-lg">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-text-light">Submit a Track</h2>
           <button
@@ -200,7 +200,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="w-full px-3 py-2 bg-bg-light border-2 border-brand-purple rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple-bright focus:border-brand-purple-bright text-text-light resize-none"
-              rows={4}
+              rows={6}
               maxLength={500}
               placeholder="Tell us something about how you made the track, what you were going for, and what kind of feedback you're looking for."
               disabled={uploading}
