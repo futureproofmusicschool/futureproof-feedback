@@ -11,6 +11,7 @@ interface Post {
   genre: string;
   description: string;
   storageUrl: string;
+  coverImageUrl?: string | null;
   mimeType: string;
   durationSeconds: number;
   author: string;
@@ -64,7 +65,21 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
             </div>
           </div>
 
-          <AudioPlayer url={post.storageUrl} mimeType={post.mimeType} />
+          <div className="flex gap-3 items-start">
+            {/* Cover Image */}
+            <div className="flex-shrink-0">
+              <img
+                src={post.coverImageUrl || '/placeholder-cover.svg'}
+                alt={`${post.title} cover`}
+                className="w-20 h-20 rounded-md object-cover border-2 border-brand-purple"
+              />
+            </div>
+            
+            {/* Audio Player */}
+            <div className="flex-1 min-w-0">
+              <AudioPlayer url={post.storageUrl} mimeType={post.mimeType} />
+            </div>
+          </div>
 
           {post.description && (
             <div className="mt-3 p-3 bg-bg-light rounded-md border-2 border-brand-purple">

@@ -32,6 +32,8 @@ model Post {
   storagePath     String   @map("storage_path")
   mimeType        String   @map("mime_type")
   durationSeconds Int      @map("duration_seconds")
+  coverImagePath  String?  @map("cover_image_path")
+  coverImageUrl   String?  @map("cover_image_url")
   scoreCached     Int      @default(0) @map("score_cached")
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")

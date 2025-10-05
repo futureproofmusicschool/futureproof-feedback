@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { generateSignedDownloadUrl } from '@/lib/storage';
+import { generateSignedDownloadUrl, getPublicImageUrl } from '@/lib/storage';
 import { calculateHot, type SortOption } from '@/lib/sorting';
 
 export async function POST(request: NextRequest) {
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { title, genre, description, filePath, mimeType, durationSeconds } = body;
+    const { title, genre, description, filePath, coverImagePath, mimeType, durationSeconds } = body;
 
     if (!title || !genre || !description || !filePath || !mimeType || durationSeconds === undefined) {
       return NextResponse.json(
@@ -36,6 +36,12 @@ export async function POST(request: NextRequest) {
       create: { username },
     });
 
+    // Generate cover image URL if provided
+    let coverImageUrl: string | undefined;
+    if (coverImagePath) {
+      coverImageUrl = await getPublicImageUrl(coverImagePath);
+    }
+
     // Create post (we'll generate signed URLs on-demand for security)
     const post = await prisma.post.create({
       data: {
@@ -45,6 +51,8 @@ export async function POST(request: NextRequest) {
         description,
         storageUrl: '', // Will be generated on-demand with signed URLs
         storagePath: filePath,
+        coverImagePath: coverImagePath || null,
+        coverImageUrl: coverImageUrl || null,
         mimeType,
         durationSeconds: Math.floor(durationSeconds),
       },

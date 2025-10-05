@@ -12,9 +12,12 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
   const [genre, setGenre] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState<File | null>(null);
+  const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -44,6 +47,27 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
     } catch (err) {
       setError('Failed to read audio file');
     }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedImage = e.target.files?.[0];
+    if (!selectedImage) return;
+
+    // Validate file type (JPG only)
+    if (!['image/jpeg', 'image/jpg'].includes(selectedImage.type.toLowerCase())) {
+      setError('Cover image must be a JPG file');
+      return;
+    }
+
+    // Validate file size (1 MB max)
+    if (selectedImage.size > 1024 * 1024) {
+      setError('Cover image must be less than 1 MB');
+      return;
+    }
+
+    setCoverImage(selectedImage);
+    setCoverImagePreview(URL.createObjectURL(selectedImage));
+    setError('');
   };
 
   const getAudioDuration = (file: File): Promise<number> => {
@@ -108,7 +132,36 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
         throw new Error('Failed to upload file');
       }
 
-      // Step 3: Create post
+      // Step 3: Upload cover image if provided
+      let coverImagePath: string | null = null;
+      if (coverImage) {
+        const imageSignedUrlResponse = await fetch('/api/upload/image-signed-url', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-username': username,
+          },
+          body: JSON.stringify({
+            filename: coverImage.name,
+            contentType: coverImage.type,
+          }),
+        });
+
+        if (imageSignedUrlResponse.ok) {
+          const { uploadUrl: imageUploadUrl, filePath: imageFilePath } = await imageSignedUrlResponse.json();
+          
+          const imageUploadResponse = await fetch(imageUploadUrl, {
+            method: 'PUT',
+            body: coverImage,
+          });
+
+          if (imageUploadResponse.ok) {
+            coverImagePath = imageFilePath;
+          }
+        }
+      }
+
+      // Step 4: Create post
       const postResponse = await fetch('/api/posts', {
         method: 'POST',
         headers: {
@@ -120,6 +173,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
           genre,
           description,
           filePath: filePath,
+          coverImagePath,
           mimeType: file.type,
           durationSeconds: duration,
         }),
@@ -207,6 +261,45 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
             />
             <div className="text-xs text-brand-gray text-right mt-1">
               {description.length}/500 characters
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-semibold text-text-light mb-2">
+              Cover Image (Optional, JPG only, &lt; 1 MB)
+            </label>
+            <div className="flex gap-4 items-start">
+              <div className="flex-shrink-0">
+                <div className="w-24 h-24 border-2 border-brand-purple rounded-md overflow-hidden bg-bg-light flex items-center justify-center">
+                  {coverImagePreview ? (
+                    <img
+                      src={coverImagePreview}
+                      alt="Cover preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-4xl">🎵</span>
+                  )}
+                </div>
+              </div>
+              <div className="flex-1">
+                <input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/jpeg,image/jpg"
+                  onChange={handleImageChange}
+                  className="w-full text-brand-gray file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-purple file:text-white hover:file:bg-brand-purple-light"
+                  disabled={uploading}
+                />
+                {coverImage && (
+                  <p className="mt-2 text-sm text-brand-purple-light">
+                    ✓ {coverImage.name} selected
+                  </p>
+                )}
+                <p className="mt-2 text-xs text-brand-gray">
+                  A cover image will make your track stand out in the feed
+                </p>
+              </div>
             </div>
           </div>
 
