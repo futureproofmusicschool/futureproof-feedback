@@ -19,12 +19,19 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const [username, setUsername] = useState<string | null>(null);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [autoOpenNotifications, setAutoOpenNotifications] = useState(false);
 
   useEffect(() => {
     // Get username from query param or postMessage
     const u = searchParams.get('u');
     if (u) {
       setUsername(u);
+    }
+
+    // Check if we should auto-open notifications
+    const notificationsParam = searchParams.get('notifications');
+    if (notificationsParam === 'open' || notificationsParam) {
+      setAutoOpenNotifications(true);
     }
 
     // Listen for postMessage from parent
@@ -52,7 +59,7 @@ function HomeContent() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-text-light">u/{username}</span>
-            <NotificationsMenu username={username} />
+            <NotificationsMenu username={username} autoOpen={autoOpenNotifications} />
             <SubmitButton onClick={() => setIsSubmitModalOpen(true)} />
           </div>
         </div>

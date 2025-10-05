@@ -20,9 +20,10 @@ interface NotificationItem {
 
 interface NotificationsMenuProps {
   username: string;
+  autoOpen?: boolean;
 }
 
-export default function NotificationsMenu({ username }: NotificationsMenuProps) {
+export default function NotificationsMenu({ username, autoOpen = false }: NotificationsMenuProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -53,6 +54,13 @@ export default function NotificationsMenu({ username }: NotificationsMenuProps) 
   useEffect(() => {
     fetchNotifications();
   }, [fetchNotifications]);
+
+  // Auto-open notifications if triggered from email link
+  useEffect(() => {
+    if (autoOpen && !isOpen) {
+      setIsOpen(true);
+    }
+  }, [autoOpen, isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;

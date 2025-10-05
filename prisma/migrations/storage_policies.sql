@@ -43,7 +43,7 @@ CREATE POLICY "Users can update their own audio files"
 ON storage.objects FOR UPDATE
 USING (
   bucket_id = 'audio-tracks'
-  AND auth.uid()::text = owner
+  AND owner::uuid = (auth.uid())
 );
 
 -- Policy 4: Owner can delete
@@ -52,7 +52,7 @@ CREATE POLICY "Users can delete their own audio files"
 ON storage.objects FOR DELETE
 USING (
   bucket_id = 'audio-tracks'
-  AND auth.uid()::text = owner
+  AND owner::uuid = (auth.uid())
 );
 
 -- ============================================================================
