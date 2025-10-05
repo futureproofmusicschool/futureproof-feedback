@@ -171,14 +171,25 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
             <label className="block text-sm font-semibold text-text-light mb-2">
               Genre
             </label>
-            <input
-              type="text"
+            <select
               value={genre}
               onChange={(e) => setGenre(e.target.value)}
               className="w-full px-3 py-2 bg-bg-light border-2 border-brand-purple rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple-bright focus:border-brand-purple-bright text-text-light"
-              placeholder="e.g., Rock, Jazz, Electronic"
               disabled={uploading}
-            />
+            >
+              <option value="">Select a genre...</option>
+              <option value="Ambient">Ambient</option>
+              <option value="Drum & Bass">Drum & Bass</option>
+              <option value="Dubstep">Dubstep</option>
+              <option value="Experimental">Experimental</option>
+              <option value="Hip Hop">Hip Hop</option>
+              <option value="House">House</option>
+              <option value="Hyperpop">Hyperpop</option>
+              <option value="Other">Other</option>
+              <option value="Pop">Pop</option>
+              <option value="Techno">Techno</option>
+              <option value="UKG">UKG</option>
+            </select>
           </div>
 
           <div className="mb-4">
