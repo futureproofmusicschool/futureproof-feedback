@@ -56,6 +56,7 @@ export async function GET(
       genre: post.genre,
       description: post.description,
       storageUrl: signedUrl, // Use signed URL instead of public URL
+      coverImageUrl: post.coverImageUrl,
       mimeType: post.mimeType,
       durationSeconds: post.durationSeconds,
       author: post.author.username,
