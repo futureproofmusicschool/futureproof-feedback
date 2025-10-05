@@ -66,6 +66,12 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
 
           <AudioPlayer url={post.storageUrl} mimeType={post.mimeType} />
 
+          {post.description && (
+            <div className="mt-3 p-3 bg-bg-light rounded-md border-2 border-brand-purple">
+              <p className="text-sm text-brand-gray whitespace-pre-wrap line-clamp-3">{post.description}</p>
+            </div>
+          )}
+
           <div className="mt-3 flex gap-4 text-sm text-brand-gray">
             <button
               onClick={handleCommentsClick}
