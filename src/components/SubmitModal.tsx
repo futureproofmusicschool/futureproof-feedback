@@ -194,16 +194,20 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
 
           <div className="mb-4">
             <label className="block text-sm font-semibold text-text-light mb-2">
-              Description
+              Description (max 2 paragraphs)
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="w-full px-3 py-2 bg-bg-light border-2 border-brand-purple rounded-md focus:outline-none focus:ring-2 focus:ring-brand-purple-bright focus:border-brand-purple-bright text-text-light resize-none"
               rows={4}
+              maxLength={500}
               placeholder="Tell us something about how you made the track, what you were going for, and what kind of feedback you're looking for."
               disabled={uploading}
             />
+            <div className="text-xs text-brand-gray text-right mt-1">
+              {description.length}/500 characters
+            </div>
           </div>
 
           <div className="mb-4">

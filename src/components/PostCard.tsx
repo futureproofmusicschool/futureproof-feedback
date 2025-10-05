@@ -68,7 +68,7 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
 
           {post.description && (
             <div className="mt-3 p-3 bg-bg-light rounded-md border-2 border-brand-purple">
-              <p className="text-sm text-brand-gray whitespace-pre-wrap line-clamp-3">{post.description}</p>
+              <p className="text-sm text-brand-gray whitespace-pre-wrap">{post.description}</p>
             </div>
           )}
 
