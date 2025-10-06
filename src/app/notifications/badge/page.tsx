@@ -28,7 +28,15 @@ function NotificationsBadgeContent() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-transparent">
-      <NotificationsMenu username={username} target="parent" />
+      <NotificationsMenu
+        username={username}
+        target="parent"
+        notificationsHrefBuilder={(user) =>
+          `https://learn.futureproofmusicschool.com/feedback?u=${encodeURIComponent(
+            user
+          )}&notifications=open`
+        }
+      />
     </div>
   );
 }

@@ -7,9 +7,14 @@ import { NotificationItem } from '@/types/notifications';
 interface NotificationsMenuProps {
   username: string;
   target?: 'self' | 'parent';
+  notificationsHrefBuilder?: (username: string) => string;
 }
 
-export default function NotificationsMenu({ username, target = 'self' }: NotificationsMenuProps) {
+export default function NotificationsMenu({
+  username,
+  target = 'self',
+  notificationsHrefBuilder,
+}: NotificationsMenuProps) {
   const router = useRouter();
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,7 +66,8 @@ export default function NotificationsMenu({ username, target = 'self' }: Notific
 
   const params = new URLSearchParams();
   params.set('u', username);
-  const notificationsPath = `/notifications?${params.toString()}`;
+  const defaultNotificationsPath = `/notifications?${params.toString()}`;
+  const externalNotificationsHref = notificationsHrefBuilder?.(username);
 
   const badgeContent = (
     <>
@@ -75,7 +81,7 @@ export default function NotificationsMenu({ username, target = 'self' }: Notific
   if (target === 'parent') {
     return (
       <a
-        href={notificationsPath}
+        href={externalNotificationsHref ?? defaultNotificationsPath}
         target="_top"
         rel="noopener noreferrer"
         className="relative w-8 h-8 rounded-full bg-brand-purple text-white text-sm font-bold flex items-center justify-center hover:bg-brand-purple-bright shadow-purple-glow hover:shadow-purple-glow-lg transition"
@@ -87,7 +93,7 @@ export default function NotificationsMenu({ username, target = 'self' }: Notific
   }
 
   const handleNavigateToNotifications = () => {
-    router.push(notificationsPath);
+    router.push(defaultNotificationsPath);
   };
 
   return (
