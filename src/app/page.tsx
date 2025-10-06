@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Feed from '@/components/Feed';
 import SubmitButton from '@/components/SubmitButton';
 import SubmitModal from '@/components/SubmitModal';
@@ -17,9 +17,10 @@ export default function Home() {
 
 function HomeContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [username, setUsername] = useState<string | null>(null);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
-  const [autoOpenNotifications, setAutoOpenNotifications] = useState(false);
+  const [shouldRedirectToNotifications, setShouldRedirectToNotifications] = useState(false);
 
   useEffect(() => {
     // Get username from query param or postMessage
@@ -28,11 +29,8 @@ function HomeContent() {
       setUsername(u);
     }
 
-    // Check if we should auto-open notifications
     const notificationsParam = searchParams.get('notifications');
-    if (notificationsParam === 'open' || notificationsParam) {
-      setAutoOpenNotifications(true);
-    }
+    setShouldRedirectToNotifications(Boolean(notificationsParam));
 
     // Listen for postMessage from parent
     const handleMessage = (event: MessageEvent) => {
@@ -71,6 +69,16 @@ function HomeContent() {
     };
   }, [username]);
 
+  useEffect(() => {
+    if (!shouldRedirectToNotifications || !username) {
+      return;
+    }
+
+    const params = new URLSearchParams();
+    params.set('u', username);
+    router.replace(`/notifications?${params.toString()}`);
+  }, [router, shouldRedirectToNotifications, username]);
+
   if (!username) {
     return <LoadingScreen />;
   }
@@ -85,7 +93,7 @@ function HomeContent() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-sm text-text-light">u/{username}</span>
-            <NotificationsMenu username={username} autoOpen={autoOpenNotifications} />
+            <NotificationsMenu username={username} />
             <SubmitButton onClick={() => setIsSubmitModalOpen(true)} />
           </div>
         </div>
