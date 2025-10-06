@@ -172,11 +172,16 @@ function NotificationsPageContent() {
 
   return (
     <div className="min-h-screen bg-bg-dark text-text-light">
-      <header className="bg-bg-medium border-b-2 border-brand-purple shadow-purple-glow">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+      <header className="bg-bg-medium border-b-2 border-brand-purple shadow-purple-glow sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-bold text-brand-purple-bright">Feedback</h1>
-            <p className="text-xs text-brand-gray">Notifications</p>
+            <Link
+              href={`/?u=${encodeURIComponent(username)}`}
+              className="text-xl font-bold text-brand-purple-bright hover:underline"
+            >
+              Feedback Forum
+            </Link>
+            <p className="text-xs text-brand-gray">Share your music, get feedback</p>
           </div>
           <div className="flex items-center gap-4 text-sm">
             <Link
@@ -190,7 +195,7 @@ function NotificationsPageContent() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-6">
+      <main className="max-w-5xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold">Notifications</h2>
           <button
