@@ -69,7 +69,7 @@ export default function PostCard({ post, username, onVote }: PostCardProps) {
             {/* Cover Image */}
             <div className="flex-shrink-0">
               <img
-                src={post.coverImageUrl || '/placeholder-cover.jpg'}
+                src={post.coverImageUrl || '/placeholder-cover.svg'}
                 alt={`${post.title} cover`}
                 className="w-20 h-20 rounded-md object-cover border-2 border-brand-purple"
               />
