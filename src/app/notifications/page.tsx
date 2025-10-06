@@ -1,12 +1,20 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { formatDistanceToNow } from '@/lib/utils';
 import { NotificationItem } from '@/types/notifications';
 
 export default function NotificationsPage() {
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <NotificationsPageContent />
+    </Suspense>
+  );
+}
+
+function NotificationsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [username, setUsername] = useState<string | null>(null);
