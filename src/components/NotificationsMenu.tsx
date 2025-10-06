@@ -59,22 +59,35 @@ export default function NotificationsMenu({ username, target = 'self' }: Notific
 
   const unreadCount = useMemo(() => notifications.length, [notifications]);
 
+  const params = new URLSearchParams();
+  params.set('u', username);
+  const notificationsPath = `/notifications?${params.toString()}`;
+
+  const badgeContent = (
+    <>
+      {isLoading ? '…' : unreadCount}
+      {unreadCount > 0 && (
+        <span className="absolute -top-1 -right-1 w-3 h-3 bg-brand-purple-bright rounded-full border border-white" />
+      )}
+    </>
+  );
+
+  if (target === 'parent') {
+    return (
+      <a
+        href={notificationsPath}
+        target="_top"
+        rel="noopener noreferrer"
+        className="relative w-8 h-8 rounded-full bg-brand-purple text-white text-sm font-bold flex items-center justify-center hover:bg-brand-purple-bright shadow-purple-glow hover:shadow-purple-glow-lg transition"
+        aria-label={`View notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
+      >
+        {badgeContent}
+      </a>
+    );
+  }
+
   const handleNavigateToNotifications = () => {
-    const params = new URLSearchParams();
-    params.set('u', username);
-
-    if (target === 'parent') {
-      window.parent.postMessage(
-        {
-          type: 'navigate',
-          url: `/notifications?${params.toString()}`,
-        },
-        '*'
-      );
-      return;
-    }
-
-    router.push(`/notifications?${params.toString()}`);
+    router.push(notificationsPath);
   };
 
   return (
@@ -83,10 +96,7 @@ export default function NotificationsMenu({ username, target = 'self' }: Notific
       className="relative w-8 h-8 rounded-full bg-brand-purple text-white text-sm font-bold flex items-center justify-center hover:bg-brand-purple-bright shadow-purple-glow hover:shadow-purple-glow-lg transition"
       aria-label={`View notifications${unreadCount > 0 ? ` (${unreadCount} unread)` : ''}`}
     >
-      {isLoading ? '…' : unreadCount}
-      {unreadCount > 0 && (
-        <span className="absolute -top-1 -right-1 w-3 h-3 bg-brand-purple-bright rounded-full border border-white" />
-      )}
+      {badgeContent}
     </button>
   );
 }
