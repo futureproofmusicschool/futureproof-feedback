@@ -6,9 +6,10 @@ import { NotificationItem } from '@/types/notifications';
 
 interface NotificationsMenuProps {
   username: string;
+  target?: 'self' | 'parent';
 }
 
-export default function NotificationsMenu({ username }: NotificationsMenuProps) {
+export default function NotificationsMenu({ username, target = 'self' }: NotificationsMenuProps) {
   const router = useRouter();
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,6 +62,18 @@ export default function NotificationsMenu({ username }: NotificationsMenuProps) 
   const handleNavigateToNotifications = () => {
     const params = new URLSearchParams();
     params.set('u', username);
+
+    if (target === 'parent') {
+      window.parent.postMessage(
+        {
+          type: 'navigate',
+          url: `/notifications?${params.toString()}`,
+        },
+        '*'
+      );
+      return;
+    }
+
     router.push(`/notifications?${params.toString()}`);
   };
 

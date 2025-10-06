@@ -28,7 +28,7 @@ function NotificationsBadgeContent() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-transparent">
-      <NotificationsMenu username={username} />
+      <NotificationsMenu username={username} target="parent" />
     </div>
   );
 }
