@@ -1,11 +1,13 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
+import type { MouseEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Feed from '@/components/Feed';
 import SubmitButton from '@/components/SubmitButton';
 import SubmitModal from '@/components/SubmitModal';
 import NotificationsMenu from '@/components/NotificationsMenu';
+import { goToParentFeed } from '@/lib/navigation';
 
 export default function Home() {
   return (
@@ -21,6 +23,12 @@ function HomeContent() {
   const [username, setUsername] = useState<string | null>(null);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const [shouldRedirectToNotifications, setShouldRedirectToNotifications] = useState(false);
+
+  const handleFeedLinkClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    if (goToParentFeed()) {
+      event.preventDefault();
+    }
+  }, []);
 
   useEffect(() => {
     // Get username from query param or postMessage
@@ -91,6 +99,7 @@ function HomeContent() {
             <a
               href={`/?u=${encodeURIComponent(username)}`}
               className="text-xl font-bold text-brand-purple-bright hover:underline"
+              onClick={handleFeedLinkClick}
             >
               Feedback Forum
             </a>

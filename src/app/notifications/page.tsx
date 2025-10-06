@@ -1,10 +1,11 @@
 'use client';
 
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import type { MouseEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { formatDistanceToNow } from '@/lib/utils';
 import { NotificationItem } from '@/types/notifications';
+import { goToParentFeed } from '@/lib/navigation';
 
 export default function NotificationsPage() {
   return (
@@ -170,26 +171,34 @@ function NotificationsPageContent() {
     return <LoadingScreen />;
   }
 
+  const handleFeedLinkClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+    if (goToParentFeed()) {
+      event.preventDefault();
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-bg-dark text-text-light">
       <header className="bg-bg-medium border-b-2 border-brand-purple shadow-purple-glow sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
-            <Link
+            <a
               href={`/?u=${encodeURIComponent(username)}`}
               className="text-xl font-bold text-brand-purple-bright hover:underline"
+              onClick={handleFeedLinkClick}
             >
               Feedback Forum
-            </Link>
+            </a>
             <p className="text-xs text-brand-gray">Share your music, get feedback</p>
           </div>
           <div className="flex items-center gap-4 text-sm">
-            <Link
+            <a
               href={`/?u=${encodeURIComponent(username)}`}
               className="text-brand-purple-bright hover:underline font-bold"
+              onClick={handleFeedLinkClick}
             >
               Back to feed
-            </Link>
+            </a>
             <span className="text-text-light">u/{username}</span>
           </div>
         </div>
