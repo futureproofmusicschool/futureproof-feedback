@@ -2,7 +2,7 @@
 -- This user can read notifications and mark them as read, but nothing else
 
 -- Create the role
-CREATE ROLE agent_reader WITH LOGIN PASSWORD 'your-secure-password-here';
+CREATE ROLE agent_reader WITH LOGIN PASSWORD 'YOUraseerCUREpa23s!';
 
 -- Grant connection to database
 GRANT CONNECT ON DATABASE postgres TO agent_reader;
