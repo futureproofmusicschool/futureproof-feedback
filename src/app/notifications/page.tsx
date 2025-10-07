@@ -167,15 +167,15 @@ function NotificationsPageContent() {
     }
   };
 
-  if (!username) {
-    return <LoadingScreen />;
-  }
-
   const handleFeedLinkClick = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
     if (goToParentFeed()) {
       event.preventDefault();
     }
   }, []);
+
+  if (!username) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="min-h-screen bg-bg-dark text-text-light">
