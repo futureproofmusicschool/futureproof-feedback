@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { generateSignedDownloadUrl, getPublicImageUrl } from '@/lib/storage';
 import { calculateHot, type SortOption } from '@/lib/sorting';
+import { sendNewTrackWebhook } from '@/lib/webhook';
 
 export async function POST(request: NextRequest) {
   const username = request.headers.get('x-username');
@@ -73,6 +74,15 @@ export async function POST(request: NextRequest) {
         value: 1,
       },
     });
+
+    // Send webhook to Zapier for Discord notification
+    // This runs asynchronously and won't block the response
+    sendNewTrackWebhook({
+      title: post.title,
+      username: username,
+      genre: post.genre,
+      postId: post.id,
+    }).catch(err => console.error('Webhook error:', err));
 
     return NextResponse.json(post, { status: 201 });
   } catch (error) {
