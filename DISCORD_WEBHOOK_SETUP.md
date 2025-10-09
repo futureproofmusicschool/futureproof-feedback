@@ -26,7 +26,8 @@ When a new track is posted, the webhook sends the following JSON payload to Zapi
   "username": "artist_username",
   "genre": "Electronic",
   "postId": "uuid-of-post",
-  "newBoardUrl": "https://your-app.vercel.app/?sort=new",
+  "postUrl": "https://learn.futureproofmusicschool.com/feedback#/posts/{postId}",
+  "newBoardUrl": "https://learn.futureproofmusicschool.com/feedback#/?sort=new",
   "timestamp": "2025-01-08T12:00:00.000Z"
 }
 ```
@@ -45,17 +46,25 @@ In Zapier, set up a webhook trigger that:
 **{title}** by **{username}**
 Genre: {genre}
 
-[View on Feedback Forum]({newBoardUrl})
+[Listen & Give Feedback]({postUrl})
+[View All New Tracks]({newBoardUrl})
 ```
 
-### 4. Link to 'New' Board
+### 4. Links
 
-Users can access the 'New' board (chronologically sorted posts) at:
+The webhook provides two links:
+
+**Direct Post Link** - Takes users directly to the new track:
 ```
-https://your-app-domain.com/?sort=new
+https://learn.futureproofmusicschool.com/feedback#/posts/{postId}
 ```
 
-This URL will show all posts sorted by newest first.
+**New Board Link** - Shows all posts sorted by newest first:
+```
+https://learn.futureproofmusicschool.com/feedback#/?sort=new
+```
+
+Both links point to the feedback page with the iframe.
 
 ## How It Works
 

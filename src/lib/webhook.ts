@@ -14,6 +14,15 @@ export async function sendNewTrackWebhook(data: {
     return;
   }
 
+  // Base URL for the feedback page (with iframe)
+  const baseUrl = 'https://learn.futureproofmusicschool.com/feedback';
+  
+  // Direct link to the specific post
+  const postUrl = `${baseUrl}#/posts/${data.postId}`;
+  
+  // Fallback link to the 'New' board
+  const newBoardUrl = `${baseUrl}#/?sort=new`;
+
   try {
     const response = await fetch(webhookUrl, {
       method: 'POST',
@@ -25,7 +34,8 @@ export async function sendNewTrackWebhook(data: {
         username: data.username,
         genre: data.genre,
         postId: data.postId,
-        newBoardUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'https://futureproof-feedback.vercel.app'}/?sort=new`,
+        postUrl: postUrl,
+        newBoardUrl: newBoardUrl,
         timestamp: new Date().toISOString(),
       }),
     });
