@@ -91,6 +91,12 @@ function HomeContent() {
     return <LoadingScreen />;
   }
 
+  // Get initial sort from URL parameter
+  const sortParam = searchParams.get('sort');
+  const initialSort = (sortParam === 'hot' || sortParam === 'new' || sortParam === 'top') 
+    ? sortParam 
+    : 'hot';
+
   return (
     <div className="min-h-screen bg-bg-dark">
       <header className="bg-bg-medium border-b-2 border-brand-purple shadow-purple-glow sticky top-0 z-10">
@@ -114,7 +120,7 @@ function HomeContent() {
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-6">
-        <Feed username={username} />
+        <Feed username={username} initialSort={initialSort} />
       </main>
 
       {isSubmitModalOpen && (

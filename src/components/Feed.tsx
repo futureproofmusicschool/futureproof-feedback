@@ -22,11 +22,12 @@ interface Post {
 
 interface FeedProps {
   username: string;
+  initialSort?: SortOption;
 }
 
-export default function Feed({ username }: FeedProps) {
+export default function Feed({ username, initialSort = 'hot' }: FeedProps) {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [sort, setSort] = useState<SortOption>('hot');
+  const [sort, setSort] = useState<SortOption>(initialSort);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

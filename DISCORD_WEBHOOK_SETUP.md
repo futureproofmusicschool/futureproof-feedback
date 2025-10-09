@@ -6,14 +6,11 @@ This app automatically posts to Discord via Zapier webhook whenever a new track 
 
 ### 1. Environment Variables
 
-Add these environment variables to your Vercel project:
+Add this environment variable to your Vercel project:
 
 ```bash
 # Zapier Webhook URL (required)
 ZAPIER_WEBHOOK_URL=https://hooks.zapier.com/hooks/catch/YOUR_WEBHOOK_ID
-
-# Application URL (optional, defaults to futureproof-feedback.vercel.app)
-NEXT_PUBLIC_APP_URL=https://your-custom-domain.com
 ```
 
 ### 2. Webhook Payload
@@ -26,8 +23,7 @@ When a new track is posted, the webhook sends the following JSON payload to Zapi
   "username": "artist_username",
   "genre": "Electronic",
   "postId": "uuid-of-post",
-  "postUrl": "https://learn.futureproofmusicschool.com/feedback#/posts/{postId}",
-  "newBoardUrl": "https://learn.futureproofmusicschool.com/feedback#/?sort=new",
+  "url": "https://learn.futureproofmusicschool.com/feedback?sort=new",
   "timestamp": "2025-01-08T12:00:00.000Z"
 }
 ```
@@ -46,25 +42,17 @@ In Zapier, set up a webhook trigger that:
 **{title}** by **{username}**
 Genre: {genre}
 
-[Listen & Give Feedback]({postUrl})
-[View All New Tracks]({newBoardUrl})
+[Listen & Give Feedback]({url})
 ```
 
-### 4. Links
+### 4. Link
 
-The webhook provides two links:
-
-**Direct Post Link** - Takes users directly to the new track:
+The webhook sends users to:
 ```
-https://learn.futureproofmusicschool.com/feedback#/posts/{postId}
+https://learn.futureproofmusicschool.com/feedback?sort=new
 ```
 
-**New Board Link** - Shows all posts sorted by newest first:
-```
-https://learn.futureproofmusicschool.com/feedback#/?sort=new
-```
-
-Both links point to the feedback page with the iframe.
+This shows the 'New' board (all posts sorted chronologically). The LearnWorlds page's iframe script automatically passes the `sort=new` parameter to the embedded app.
 
 ## How It Works
 

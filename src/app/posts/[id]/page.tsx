@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams, useParams, useRouter } from 'next/navigation';
 import PostDetail from '@/components/PostDetail';
 import CommentSection from '@/components/CommentSection';
 import NotificationsMenu from '@/components/NotificationsMenu';
+import { goToParentFeed } from '@/lib/navigation';
 
 export default function PostPage() {
   const searchParams = useSearchParams();
@@ -63,13 +64,20 @@ export default function PostPage() {
 
   const postId = params.id as string;
 
+  const handleBackClick = useCallback(() => {
+    // Try to reload parent page, otherwise navigate to home
+    if (!goToParentFeed()) {
+      router.push(`/?u=${encodeURIComponent(username)}`);
+    }
+  }, [router, username]);
+
   return (
     <div className="min-h-screen bg-bg-dark">
       <header className="bg-bg-medium border-b-2 border-brand-purple shadow-purple-glow sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => router.back()}
+              onClick={handleBackClick}
               className="text-sm text-brand-purple-bright hover:underline"
             >
               ← Back

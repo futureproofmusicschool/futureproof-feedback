@@ -14,14 +14,8 @@ export async function sendNewTrackWebhook(data: {
     return;
   }
 
-  // Base URL for the feedback page (with iframe)
-  const baseUrl = 'https://learn.futureproofmusicschool.com/feedback';
-  
-  // Direct link to the specific post
-  const postUrl = `${baseUrl}#/posts/${data.postId}`;
-  
-  // Fallback link to the 'New' board
-  const newBoardUrl = `${baseUrl}#/?sort=new`;
+  // Link to the 'New' board on LearnWorlds (iframe will receive sort=new param)
+  const newBoardUrl = 'https://learn.futureproofmusicschool.com/feedback?sort=new';
 
   try {
     const response = await fetch(webhookUrl, {
@@ -34,8 +28,7 @@ export async function sendNewTrackWebhook(data: {
         username: data.username,
         genre: data.genre,
         postId: data.postId,
-        postUrl: postUrl,
-        newBoardUrl: newBoardUrl,
+        url: newBoardUrl,
         timestamp: new Date().toISOString(),
       }),
     });
