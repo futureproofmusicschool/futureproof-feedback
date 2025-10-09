@@ -85,11 +85,11 @@ export default function PostPage() {
               ← Back
             </button>
             <div>
-              <h1 className="text-xl font-bold text-brand-purple-bright">Feedback</h1>
+              <h1 className="text-xl font-bold text-brand-purple-bright">Feedback Forum</h1>
               <p className="text-xs text-brand-gray">Share your music, get feedback</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <span className="text-sm text-text-light">u/{username}</span>
             <NotificationsMenu username={username} />
           </div>
