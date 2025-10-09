@@ -31,6 +31,15 @@ export default function PostPage() {
     return () => window.removeEventListener('message', handleMessage);
   }, [searchParams]);
 
+  const handleBackClick = useCallback(() => {
+    // Try to reload parent page, otherwise navigate to home
+    if (!goToParentFeed()) {
+      if (username) {
+        router.push(`/?u=${encodeURIComponent(username)}`);
+      }
+    }
+  }, [router, username]);
+
   useEffect(() => {
     if (!username || !notificationId) return;
 
@@ -63,13 +72,6 @@ export default function PostPage() {
   }
 
   const postId = params.id as string;
-
-  const handleBackClick = useCallback(() => {
-    // Try to reload parent page, otherwise navigate to home
-    if (!goToParentFeed()) {
-      router.push(`/?u=${encodeURIComponent(username)}`);
-    }
-  }, [router, username]);
 
   return (
     <div className="min-h-screen bg-bg-dark">
