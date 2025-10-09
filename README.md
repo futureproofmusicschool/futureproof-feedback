@@ -22,6 +22,7 @@ A Reddit-style community platform for sharing original music tracks and getting 
 - **Storage**: Supabase Storage (with signed URLs)
 - **Deployment**: Vercel
 
+
 ## Setup
 
 ### Prerequisites
