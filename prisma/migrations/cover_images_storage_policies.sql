@@ -10,16 +10,22 @@ VALUES (
   'cover-images',
   'cover-images',
   true,
-  1048576, -- 1 MB in bytes
+  3145728, -- 3 MB in bytes
   ARRAY['image/jpeg', 'image/jpg']
 )
 ON CONFLICT (id) DO UPDATE SET
-  file_size_limit = 1048576,
+  file_size_limit = 3145728,
   allowed_mime_types = ARRAY['image/jpeg', 'image/jpg'];
 
 -- ============================================================================
 -- STORAGE OBJECT POLICIES FOR COVER IMAGES
 -- ============================================================================
+
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Public cover images are accessible to everyone" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can upload cover images" ON storage.objects;
+DROP POLICY IF EXISTS "Users can update their own cover images" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete their own cover images" ON storage.objects;
 
 -- Policy 1: Public read access to cover images
 CREATE POLICY "Public cover images are accessible to everyone"

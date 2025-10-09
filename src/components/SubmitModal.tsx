@@ -59,9 +59,9 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
       return;
     }
 
-    // Validate file size (1 MB max)
-    if (selectedImage.size > 1024 * 1024) {
-      setError('Cover image must be less than 1 MB');
+    // Validate file size (3 MB max)
+    if (selectedImage.size > 3 * 1024 * 1024) {
+      setError('Cover image must be less than 3 MB');
       return;
     }
 
@@ -266,7 +266,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
 
           <div className="mb-4">
             <label className="block text-sm font-semibold text-text-light mb-2">
-              Cover Image (Optional, JPG only, &lt; 1 MB)
+              Cover Image (Optional, JPG only, &lt; 3 MB)
             </label>
             <div className="flex gap-4 items-start">
               <div className="flex-shrink-0">
@@ -305,7 +305,7 @@ export default function SubmitModal({ username, onClose }: SubmitModalProps) {
 
           <div className="mb-4">
             <label className="block text-sm font-semibold text-text-light mb-2">
-              Audio File (MP3 or WAV, &lt; 10 minutes)
+              Audio File (MP3 or WAV, max size 50 MB, &lt; 10 minutes)
             </label>
             <input
               ref={fileInputRef}
